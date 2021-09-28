@@ -1,5 +1,18 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import {MongoClient} from 'mongodb';
 
-export default (req, res) => {
-  res.status(200).json({ name: 'John Doe' })
+async function handler (req, res) {
+  if (req.method === 'POST') {
+    const data = req.body;
+
+    const client = await MongoClient.connect(
+      'MongoURI'
+    );
+    const db = client.db();
+    const videoGamesCollection = db.collection('videogames');
+    const result = await videoGamesCollection.insertOne(data);
+    console.log(result);
+    res.status(201).json({message: 'Video game inserted'});
+  }
 }
+
+export default handler;

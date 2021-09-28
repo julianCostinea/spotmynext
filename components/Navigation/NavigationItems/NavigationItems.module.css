@@ -1,0 +1,25 @@
+.NavigationItems {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 100%;
+}
+
+.KontaktNav{
+    width: 100%;
+}
+
+@media (min-width: 780px) {
+    .NavigationItems {
+        flex-flow: row;
+    }
+}
+
+@media (min-width: 1200px) {
+    .KontaktNav{
+        margin-left: 28rem;
+    }
+}
