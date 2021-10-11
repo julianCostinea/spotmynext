@@ -10,8 +10,10 @@ body {
 
 :root {
   --color-orange: #f4ce68;
+  --color-off-orange: #f6d886;
   --offgray: #e8eddf;
   --line-active: #364f6b;
+  --off-line-active: #8695a6;
 }
 a {
   color: inherit;
@@ -20,4 +22,11 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.h-6{
+  height: 1.5rem;
+}
+.w-6{
+  width: 1.5rem;
 }
