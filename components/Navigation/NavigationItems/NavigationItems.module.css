@@ -4,17 +4,23 @@
     list-style: none;
     display: flex;
     flex-flow: column;
-    align-items: center;
     height: 100%;
+    text-align: left;
 }
 
 .KontaktNav{
     width: 100%;
 }
-
+@media (max-width: 779px) {
+    .NavigationItems{
+        margin: 1rem 0 0  10vw;
+    }
+}
 @media (min-width: 780px) {
     .NavigationItems {
         flex-flow: row;
+        align-items: center;
+        text-align: center;
     }
 }
 

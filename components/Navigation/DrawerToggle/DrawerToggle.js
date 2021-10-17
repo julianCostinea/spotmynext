@@ -6,10 +6,13 @@ const DrawerToggle = (props) => {
   const sideDrawerCtx = useContext(SideDrawerContext);
 
   return (
-    <div className={classes.DrawerToggle} onClick={sideDrawerCtx.toggleSideDrawer}>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div
+      className={classes.DrawerToggle}
+    >
+      <input id="DrawerToggle" type="checkbox" onClick={sideDrawerCtx.toggleSideDrawer}/>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   );
 };

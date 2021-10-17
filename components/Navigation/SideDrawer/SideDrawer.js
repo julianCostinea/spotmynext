@@ -1,8 +1,9 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import SideDrawerContext from "../../../store/SideDrawerContext";
 import NavigationItems from "../NavigationItems/NavigationItems";
 import classes from "./SideDrawer.module.css";
 import Backdrop from "../../UI/Backdrop/Backdrop";
+import DrawerToggle from "../DrawerToggle/DrawerToggle";
 
 const SideDrawer = (props) => {
   const sideDrawerCtx = useContext(SideDrawerContext);
@@ -12,7 +13,8 @@ const SideDrawer = (props) => {
   }
   return (
     <React.Fragment>
-      <Backdrop clicked={props.closed}/>
+      <Backdrop clicked={props.closed} />
+      <DrawerToggle />
       <div
         className={attachedClasses.join(" ")}
         style={{ textAlign: "center" }}

@@ -8,14 +8,14 @@
     background-color: white;
     padding: 32px 0px;
     box-sizing: border-box;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.4s ease-out;
 }
 .Footer{
     position:fixed;
     bottom:0%;
     padding-bottom: 10px;
     width:100%;
-    background-color:var(--offgray)
+    background-color:var(--color-orange)
 }
 
 @media (min-width: 750px) {

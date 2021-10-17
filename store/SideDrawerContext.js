@@ -15,6 +15,8 @@ export function SideDrawerContextProvider(props) {
   }
   function hideMenuHandler() {
     setShowMenu(false);
+    const drawerToggle = document.querySelector('#DrawerToggle');
+    drawerToggle.checked = false;
   }
   function sideDrawerToggleHandler() {
     setShowMenu(!showMenu);
