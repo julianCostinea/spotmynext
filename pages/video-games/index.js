@@ -1,5 +1,5 @@
 import SearchBox from "../../components/SearchBox/SearchBox";
-import React from "react";
+import React, { useState } from "react";
 
 import classes from "./video-games.module.css";
 import FrontImage from "../../components/FrontImage/FrontImage";
@@ -7,6 +7,7 @@ import Recommendations from "../../components/recommendations/recommendations";
 import Reccomendation from "../../components/reccomendation/reccomendation";
 
 const VideoGames = () => {
+  const [videoGamesList, setVideoGamesList] = useState([]);
   return (
     <React.Fragment>
       <FrontImage imagePath = "/images/videogames.jpg"/>
