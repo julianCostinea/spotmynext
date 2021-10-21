@@ -1,20 +1,21 @@
-import SearchBox from "../../components/SearchBox/SearchBox";
+import SpotBox from "../../components/SpotBox/SpotBox";
 import React from "react";
 import FrontImage from "../../components/FrontImage/FrontImage";
 
 import classes from './movies.module.css'
 import Recommendations from "../../components/recommendations/recommendations";
-import Reccomendation from "../../components/reccomendation/reccomendation";
+import Recommendation from "../../components/Recommendation/Reccomendation";
 
 const Movies = () => {
   return (
     <React.Fragment>
       <FrontImage imagePath = "/images/movies.jpg"/>
-      <SearchBox item="movie" placeholder="Star Wars, Avengers, Goodfellas"/>
+      <SpotBox item="movie" placeholder="Star Wars, Avengers, Goodfellas"/>
       <Recommendations>
-        <Reccomendation item="movie"/>
-        <Reccomendation item="movie"/>
-        <Reccomendation item="movie"/>
+        <h1>Hot picks: </h1>
+        <Recommendation item="movie"/>
+        <Recommendation item="movie"/>
+        <Recommendation item="movie"/>
       </Recommendations>
     </React.Fragment>
   );

@@ -1,5 +1,6 @@
 .wrap {
   width: 50% !important;
+  margin-bottom: 2rem;
 }
 
 .search {
@@ -33,6 +34,10 @@
 .searchButton svg {
   height: 3rem;
   width: 3rem;
+}
+
+.errorHeader{
+  color: red;
 }
 
 @media (max-width: 767px) {

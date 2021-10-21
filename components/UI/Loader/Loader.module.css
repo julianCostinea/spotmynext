@@ -1,0 +1,23 @@
+.Label {
+    position: relative;
+    top: 4px;
+    height: 4rem;
+    width: 4rem;
+    display: inline-block;
+    border: 5px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    border-left-color: var(--color-orange);
+    animation: rotate 0.8s linear infinite;
+}
+
+@keyframes rotate {
+    50%{
+        border-left-color: var(var(--color-off-orange));
+    }
+    75%{
+        border-left-color: var(--color-orange);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

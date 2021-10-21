@@ -1,9 +1,9 @@
-.reccomendation {
+.recommendation {
     width: 15rem;
     height: 15rem;
     border: 2px solid var(--color-orange);
   }
-  .reccomendation p {
+  .recommendation p {
     transform: rotate(-50deg);
   }
   

@@ -1,14 +1,13 @@
-import { MongoClient } from "mongodb";
+import {connectToDatabase} from "../../../lib/mongodb";
 
 async function handler(req, res) {
   if (req.method === "POST") {
     const searchTerm = req.body.searchTerm;
 
     try {
-      const client = await MongoClient.connect("mongodb+srv://sldsonny:<password>@cluster0.gnpji.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-      const db = client.db();
-      const videoGamesCollection = db.collection("videogames");
-      const result = await videoGamesCollection.findOne(searchTerm);
+      const { db } = await connectToDatabase();
+      const videoGamesCollection = db.collection("video-games");
+      const result = await videoGamesCollection.find({title:'Persona 5'}).toArray();
       res.status(200).json({ message: "success", result: result });
     } catch (error) {
       res.status(error.code ?? 502).send({
