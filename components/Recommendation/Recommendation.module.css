@@ -1,0 +1,13 @@
+.recommendation {
+  width: 15rem;
+  height: 15rem;
+  border: 2px solid var(--main-color);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.recommendation:hover {
+  transform: scale(1.2);
+}
+.recommendation p {
+  transform: rotate(-50deg);
+}

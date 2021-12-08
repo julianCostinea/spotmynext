@@ -19,7 +19,7 @@
     display: none;
   }
   .NavigationItem {
-    border-bottom: 1px solid var(--offgray);
+    border-bottom: 1px solid var(--off-secondary-color);
   }
 }
 
@@ -36,7 +36,7 @@
     bottom: 0;
     transform: translate(-50%, 7px);
     fill: none;
-    stroke: var(--stroke, var(--offgray));
+    stroke: var(--stroke, var(--off-secondary-color));
     stroke-linecap: round;
     stroke-width: 2px;
     stroke-dasharray: var(--offset, 69px) 278px;

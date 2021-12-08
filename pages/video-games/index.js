@@ -8,7 +8,7 @@ const VideoGames = () => {
   return (
     <React.Fragment>
       <FrontImage imagePath = "/images/videogames.jpg"/>
-      <SpotBox item="video game" placeholder="Zelda, GTA, Halo" />
+      <SpotBox category="videogames" placeholder="Zelda, GTA, Halo" />
     </React.Fragment>
   );
 };

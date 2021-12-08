@@ -2,21 +2,13 @@ import SpotBox from "../../components/SpotBox/SpotBox";
 import React from "react";
 import FrontImage from "../../components/FrontImage/FrontImage";
 
-import classes from './movies.module.css'
-import Recommendations from "../../components/recommendations/recommendations";
-import Recommendation from "../../components/Recommendation/Reccomendation";
+import classes from "./movies.module.css";
 
 const Movies = () => {
   return (
     <React.Fragment>
-      <FrontImage imagePath = "/images/movies.jpg"/>
-      <SpotBox item="movie" placeholder="Star Wars, Avengers, Goodfellas"/>
-      <Recommendations>
-        <h1>Hot picks: </h1>
-        <Recommendation item="movie"/>
-        <Recommendation item="movie"/>
-        <Recommendation item="movie"/>
-      </Recommendations>
+      <FrontImage imagePath="/images/movies.jpg" />
+      <SpotBox category="movies" placeholder="Star Wars, Avengers, Goodfellas" />
     </React.Fragment>
   );
 };

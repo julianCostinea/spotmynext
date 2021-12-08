@@ -9,9 +9,9 @@ body {
 }
 
 :root {
-  --color-orange: #f4ce68;
-  --color-off-orange: #f6d886;
-  --offgray: #e8eddf;
+  --main-color: #f4ce68;
+  --off-main-color: #f6d886;
+  --off-secondary-color: #e8eddf;
   --line-active: #364f6b;
   --off-line-active: #8695a6;
 }

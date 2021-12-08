@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-image: linear-gradient(to right, var(--color-orange), #f0bb2d);
+    background-image: linear-gradient(to right, var(--main-color), #f0bb2d);
 }
 
 .BoxShadow{

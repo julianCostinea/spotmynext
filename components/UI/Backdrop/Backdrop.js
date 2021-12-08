@@ -3,12 +3,12 @@ import SideDrawerContext from "../../../store/SideDrawerContext";
 
 import classes from "./Backdrop.module.css";
 
-const Backdrop = (props) => {
+const Backdrop = () => {
     const sideDrawerCtx = useContext(SideDrawerContext);
 
   return (
-    sideDrawerCtx.showMenu ? (
-    <div className={classes.Backdrop} onClick={sideDrawerCtx.hideSideDrawer}></div>
+    sideDrawerCtx.showBackdrop ? (
+    <div className={classes.Backdrop}></div>
   ) : null )
 };
 
