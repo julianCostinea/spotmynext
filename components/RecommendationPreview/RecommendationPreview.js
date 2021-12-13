@@ -9,10 +9,17 @@ const RecommendationPreview = (props) => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
   };
+  const cssClasses = [
+    classes.RecommendationPreview, 
+    props.show === "entering" ? classes.openPreview :
+    props.show === "exiting" ? classes.closePreview : null
+  ]
 
   // ADD SLIDE IN ANIMATION WITH REACT TRANSITION GROUP?
   return (
-    <div className={classes.RecommendationPreview}>
+    <div
+      className={cssClasses.join(' ')}
+    >
       {props.title}
       <div
         onClick={closeRecommendationPreview}

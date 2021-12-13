@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import SideDrawerContext from "../../../store/SideDrawerContext";
 import NavigationItems from "../NavigationItems/NavigationItems";
-import classes from "./SideDrawer.module.css";
 import DrawerToggle from "../DrawerToggle/DrawerToggle";
 import { FacebookIcon, InstagramIcon } from "../../UI/Icons/Icons";
 
-const SideDrawer = (props) => {
+import classes from "./SideDrawer.module.css";
+
+const SideDrawer = () => {
   const sideDrawerCtx = useContext(SideDrawerContext);
   let attachedClasses = [classes.SideDrawer, classes.Close];
   if (sideDrawerCtx.showMenu) {

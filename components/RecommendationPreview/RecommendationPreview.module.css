@@ -26,6 +26,7 @@
     right: 5%;
     top: 10%;
     cursor: pointer;
+    font-size: 2rem;
 }
 
 .ClosePreview span {
@@ -33,6 +34,10 @@
   width: 29px;
   height: 5px;
   margin-bottom: 5px;
+  background-color: var(--off-line-active);
+  transition: background-color 0.2s;
+}
+.ClosePreview:hover span{
   background-color: var(--line-active);
 }
 .ClosePreview span
@@ -42,4 +47,33 @@
 .ClosePreview span:nth-last-child(1)
 {
   transform: rotate(-45deg) translate(7px, -6px);
+}
+
+
+.openPreview{
+  animation: openPreview 0.2s ease-out forwards;
+}
+.closePreview{
+  animation: closePreview 0.2s ease-out forwards;
+}
+
+@keyframes openPreview{
+  0%{
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@keyframes closePreview{
+  0%{
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100%{
+    opacity: 0;
+    transform: translateY(-10%);
+  }
 }
