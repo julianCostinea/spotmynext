@@ -1,22 +1,19 @@
-import React from 'react';
+import React from "react";
+import NavigationItem from "../NavigationItem/NavigationItem";
+import Logo from "../../Logo/Logo";
 
-import classes from './NavigationItems.module.css';
-import NavigationItem from '../NavigationItem/NavigationItem';
-import Logo from '../../Logo/Logo';
+import classes from "./NavigationItems.module.css";
 
-const NavigationItems = () => (
-    <ul className={classes.NavigationItems}>
-        <Logo />
-        <NavigationItem link="/videogames">Video&nbsp;Games</NavigationItem>
-        <NavigationItem link="/movies">Movies</NavigationItem>
-        <NavigationItem link="/books">Books</NavigationItem>
-        <div className={classes.KontaktNav}>
-            <NavigationItem
-                link="/about">
-                    What&nbsp;it&nbsp;it?
-            </NavigationItem>
-        </div>
+const NavigationItems = () => {
+  return (
+    <ul className={`${classes.NavigationItems}`}>
+      <Logo />
+      <NavigationItem link="/videogames">Video&nbsp;Games</NavigationItem>
+      <NavigationItem link="/movies">Movies</NavigationItem>
+      <NavigationItem link="/books">Books</NavigationItem>
+      <NavigationItem link="/about">What&nbsp;it&nbsp;it?</NavigationItem>
     </ul>
-);
+  );
+};
 
 export default NavigationItems;

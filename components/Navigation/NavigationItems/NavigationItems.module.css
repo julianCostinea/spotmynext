@@ -7,10 +7,6 @@
     height: 100%;
     text-align: left;
 }
-
-.KontaktNav{
-    width: 100%;
-}
 @media (max-width: 779px) {
     .NavigationItems{
         margin: 1rem 0 0  10vw;
@@ -21,11 +17,5 @@
         flex-flow: row;
         align-items: center;
         text-align: center;
-    }
-}
-
-@media (min-width: 1200px) {
-    .KontaktNav{
-        margin-left: 28rem;
     }
 }

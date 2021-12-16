@@ -6,33 +6,10 @@ import { useRouter } from "next/router";
 import classes from "./NavigationItem.module.css";
 
 const NavigationItem = (props) => {
-  // state={
-  //     showDropdown: false
-  // }
-  // dropdownShow= () => {
-  //     if (props.dropdownLedigeStillinger) {
-  //         setState({
-  //             showDropdown: true
-  //         })
-  //     }
-  // }
-  // dropdownHide = (event) => {
-  //     if (props.dropdownLedigeStillinger) {
-  //         if (event.target.id !== 'listItem' || event.target.id !=='navlink' || event.target.id !== 'dropdown') {
-  //             setState({
-  //                 showDropdown: false
-  //             })
-  //         }
-  //     }
-  // }
-  // let attachedClasses = [classes.NavigationItem];
-  // if (props.dropdownLedigeStillinger) {
-  //     attachedClasses = [classes.NavigationItem, classes.Relative];
-  // }
   const router = useRouter();
   const sideDrawerCtx = useContext(SideDrawerContext);
   return (
-    <li className={classes.NavigationItem} id={"listItem"}>
+    <li className={`${classes.NavigationItem} ${sideDrawerCtx.showMenu ? classes.openPreview : null}`} id={"listItem"}>
       <Link id={"navlink"} href={props.link}>
         <a
           onClick={sideDrawerCtx.hideSideDrawer}
