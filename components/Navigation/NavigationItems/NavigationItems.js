@@ -7,7 +7,7 @@ import Logo from '../../Logo/Logo';
 const NavigationItems = () => (
     <ul className={classes.NavigationItems}>
         <Logo />
-        <NavigationItem link="/video-games">Video&nbsp;Games</NavigationItem>
+        <NavigationItem link="/videogames">Video&nbsp;Games</NavigationItem>
         <NavigationItem link="/movies">Movies</NavigationItem>
         <NavigationItem link="/books">Books</NavigationItem>
         <div className={classes.KontaktNav}>

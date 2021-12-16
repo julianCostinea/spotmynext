@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Portal from "../../hoc/Portal/Portal";
+import Image from "next/image";
 import SideDrawerContext from "../../store/SideDrawerContext";
 import RecommendationPreview from "../RecommendationPreview/RecommendationPreview";
 import { Transition } from "react-transition-group";
@@ -13,6 +14,24 @@ const Recommendation = (props) => {
     setOpenRecommendationPreview(true);
     sideDrawerCtx.showBackdropHandler();
   };
+  const [imagePathName, setImagePathName] = useState("/images");
+
+  useEffect(() => {
+    switch (window.location.pathname) {
+      case "/videogames":
+        setImagePathName(`${imagePathName}/videogames/${props.photo}`);
+        break;
+      case "/movies":
+        setImagePathName(`${imagePathName}/movies/${props.photo}`);
+        break;
+      case "/books":
+        setImagePathName(`${imagePathName}/books/${props.photo}`);
+        break;
+      default:
+        setImagePathName(`${imagePathName}/videogames/${props.photo}`);
+        break;
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -20,7 +39,8 @@ const Recommendation = (props) => {
         className={classes.recommendation}
         onClick={showRecommendationPreview}
       >
-        <p>{props.item}</p>
+        {/* BUILD A CUSTOM IMAGE PATH FOR EACH ROUTE DEPENDING ON HREF */}
+        <Image quality={100} layout="fill" src={imagePathName} />
       </div>
       {
         <Portal selector="#recommendationPreviewOverlay">
@@ -36,7 +56,9 @@ const Recommendation = (props) => {
                 show={state}
                 openRecommendationPreview
                 setOpenFalse={() => setOpenRecommendationPreview(false)}
-                title={props.item}
+                title={props.title}
+                description={props.description}
+                photo={imagePathName}
               />
             )}
           </Transition>

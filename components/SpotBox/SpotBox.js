@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRef } from "react";
 import Recommendations from "../recommendations/recommendations";
 import Recommendation from "../Recommendation/Recommendation";
@@ -15,15 +15,15 @@ const SpotBox = (props) => {
   switch (props.category) {
     case "videogames":
       item = "video game";
-      collection = "video-games"
+      collection = "video-games";
       break;
     case "movies":
       item = "movie";
-      collection = "movies"
+      collection = "movies";
       break;
     case "books":
       item = "book";
-      collection = "books"
+      collection = "books";
       break;
     default:
       break;
@@ -60,7 +60,12 @@ const SpotBox = (props) => {
   }
 
   const fetchedRecommendations = items.map((item, index) => (
-    <Recommendation key={index} item={item.title} />
+    <Recommendation
+      key={index}
+      title={item.title}
+      description={item.description}
+      photo={item.photo}
+    />
   ));
 
   return (
@@ -81,14 +86,12 @@ const SpotBox = (props) => {
         </div>
       </form>
       {isLoading ? <Loader isLoading={isLoading} /> : null}
-      <Recommendations>
-        {fetchedRecommendations}
-      </Recommendations>
+      <Recommendations>{fetchedRecommendations}</Recommendations>
       <h1>Hot picks: </h1>
       <Recommendations>
-        <Recommendation item={`${item} 1`} />
-        <Recommendation item={`${item} 2`} />
-        <Recommendation item={`${item} 3`} />
+        <Recommendation title={`${item} 1`} photo={"persona5.jpg"} />
+        <Recommendation title={`${item} 2`} photo={"persona5.jpg"} />
+        <Recommendation title={`${item} 3`} photo={"persona5.jpg"} />
       </Recommendations>
     </React.Fragment>
   );

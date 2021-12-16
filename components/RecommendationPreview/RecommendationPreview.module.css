@@ -1,7 +1,6 @@
 .RecommendationPreview {
   position: fixed;
   width: 70vw;
-  height: 50%;
   left: 15%;
   top: 20%;
   z-index: 200;
@@ -13,20 +12,28 @@
   border-radius: 3px;
 }
 
-.Open {
-  transform: translateX(0);
+.currentItem {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.Close {
-  transform: translateX(-100%);
+.imageContainer {
+  width: 15rem;
+  height: 18rem;
+  border: 2px solid var(--main-color);
+  position: relative;
+}
+.currentItemDescription {
 }
 
-.ClosePreview{
-    position: absolute;
-    right: 5%;
-    top: 10%;
-    cursor: pointer;
-    font-size: 2rem;
+.ClosePreview {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  cursor: pointer;
+  font-size: 2rem;
 }
 
 .ClosePreview span {
@@ -37,43 +44,48 @@
   background-color: var(--off-line-active);
   transition: background-color 0.2s;
 }
-.ClosePreview:hover span{
+.ClosePreview:hover span {
   background-color: var(--line-active);
 }
-.ClosePreview span
-{
+.ClosePreview span {
   transform: rotate(45deg) translate(1px, 0px);
 }
-.ClosePreview span:nth-last-child(1)
-{
+.ClosePreview span:nth-last-child(1) {
   transform: rotate(-45deg) translate(7px, -6px);
 }
 
-
-.openPreview{
+.openPreview {
   animation: openPreview 0.2s ease-out forwards;
 }
-.closePreview{
+.closePreview {
   animation: closePreview 0.2s ease-out forwards;
 }
 
-@keyframes openPreview{
-  0%{
+@keyframes openPreview {
+  0% {
     opacity: 0;
     transform: translateY(-10%);
   }
-  100%{
+  100% {
     opacity: 1;
     transform: translateY(0%);
   }
 }
-@keyframes closePreview{
-  0%{
+@keyframes closePreview {
+  0% {
     opacity: 1;
     transform: translateY(0%);
   }
-  100%{
+  100% {
     opacity: 0;
     transform: translateY(-10%);
+  }
+}
+
+@media (min-width: 781px) {
+  .currentItemDescription {
+    margin-left: 3rem;
+    text-align: left;
+    max-width: 40%;
   }
 }

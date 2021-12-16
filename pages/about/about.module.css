@@ -1,0 +1,9 @@
+.aboutContainer p {
+    font-weight: bold;
+    font-size: 1.1rem;
+    max-width: 80%;
+    margin: 10px auto;
+}
+.aboutContainer h1{
+    color: var(--off-line-active);
+}
