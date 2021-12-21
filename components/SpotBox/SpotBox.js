@@ -95,22 +95,22 @@ const SpotBox = (props) => {
           title={`${item} 1`}
           photo={"persona5.jpg"}
           description="cing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags = {["PlayStation 4", "PlayStation 3"]}
-          secondaryTags = {["JRPG", "Action", "Simulation"]}
+          mainTags = {"PlayStation 4, PlayStation 3"}
+          secondaryTags = {"JRPG, Action, Simulation"}
         />
         <Recommendation
           title={`${item} 2`}
           photo={"persona5.jpg"}
           description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags = {["PlayStation 4", "PlayStation 3"]}
-          secondaryTags = {["JRPG", "Action", "Simulation"]}
+          mainTags = {"PlayStation 4, PlayStation 3"}
+          secondaryTags = {"JRPG, Action, Simulation"}
         />
         <Recommendation
           title={`${item} 3`}
           photo={"persona5.jpg"}
           description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags = {["PlayStation 4", "PlayStation 3"]}
-          secondaryTags = {["JRPG", "Action", "Simulation"]}
+          mainTags = {"PlayStation 4, PlayStation 3"}
+          secondaryTags = {"JRPG, Action, Simulation"}
         />
       </Recommendations>
     </React.Fragment>
