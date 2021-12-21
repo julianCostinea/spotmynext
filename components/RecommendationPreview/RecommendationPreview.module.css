@@ -1,7 +1,9 @@
 .RecommendationPreview {
   position: fixed;
-  width: 70vw;
-  left: 15%;
+  width: 90vw;
+  height: 70vh;
+  overflow-y: scroll;
+  left: 5%;
   top: 20%;
   z-index: 200;
   background-color: var(--off-secondary-color);
@@ -10,6 +12,7 @@
   transition: transform 0.7s ease-out;
   text-align: center;
   border-radius: 3px;
+  padding: 2rem 10px;
 }
 
 .currentItem {
@@ -26,6 +29,15 @@
   position: relative;
 }
 .currentItemDescription {
+}
+.descriptionAnimation {
+  animation: showDescription 0.5s ease-out forwards;
+}
+.imageAnimation {
+  animation: showImage 0.4s ease-out forwards;
+}
+.titleClasses {
+  animation: showTitle 0.4s ease-out forwards;
 }
 
 .ClosePreview {
@@ -61,10 +73,48 @@
   animation: closePreview 0.2s ease-out forwards;
 }
 
+@keyframes showDescription {
+  0% {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+  20% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+@keyframes showImage {
+  0% {
+    opacity: 0;
+    transform: translateX(-30%);
+  }
+  20% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes showTitle {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
 @keyframes openPreview {
   0% {
     opacity: 0;
-    transform: translateY(-10%);
+    transform: translateY(-20%);
   }
   100% {
     opacity: 1;
@@ -84,8 +134,15 @@
 
 @media (min-width: 781px) {
   .currentItemDescription {
-    margin-left: 3rem;
+    margin-left: 4rem;
     text-align: left;
     max-width: 40%;
+  }
+  .RecommendationPreview {
+    overflow-y: auto;
+    height: auto;
+    padding: 1rem;
+    width: 50vw;
+    left: 25%;
   }
 }

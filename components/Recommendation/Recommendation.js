@@ -15,6 +15,7 @@ const Recommendation = (props) => {
     sideDrawerCtx.showBackdropHandler();
   };
   const [imagePathName, setImagePathName] = useState("/images");
+  const [recommendationOpened, setRecommendationOpened] = useState(false);
 
   useEffect(() => {
     switch (window.location.pathname) {
@@ -50,6 +51,7 @@ const Recommendation = (props) => {
             unmountOnExit
             in={openRecommendationPreview}
             timeout={200}
+            onEntering={()=>setRecommendationOpened(true)}
           >
             {(state) => (
               <RecommendationPreview
@@ -58,7 +60,10 @@ const Recommendation = (props) => {
                 setOpenFalse={() => setOpenRecommendationPreview(false)}
                 title={props.title}
                 description={props.description}
+                mainTags = {props.mainTags}
+                secondaryTags = {props.secondaryTags}
                 photo={imagePathName}
+                recommendationOpened={recommendationOpened}
               />
             )}
           </Transition>

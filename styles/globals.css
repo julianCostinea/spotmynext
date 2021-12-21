@@ -30,3 +30,6 @@ a {
 .w-6{
   width: 1.5rem;
 }
+#recommendationPreviewOverlay{
+  position: relative;
+}
