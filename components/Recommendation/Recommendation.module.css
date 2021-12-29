@@ -1,19 +1,18 @@
 .recommendation {
+  cursor: pointer;
+}
+.recommendationPhoto {
   width: 15rem;
   height: 19rem;
   border: 2px solid var(--main-color);
   transition: all 0.3s;
-  cursor: pointer;
   position: relative;
 }
 /* .recommendation:hover {
   transform: scale(1.2);
 } */
-.recommendation p {
-  transform: rotate(-50deg);
-}
 @media (hover: hover) and (pointer: fine) {
-  .recommendation:hover {
-    transform: scale(1.2);
+  .recommendation:hover > .recommendationPhoto{
+    transform: scale(1.1);
   }
 }

@@ -61,12 +61,14 @@ const SpotBox = (props) => {
 
   const fetchedRecommendations = items.map((item, index) => (
     <Recommendation
-      key={index}
+      key={item._id}
+      id={item._id}
       title={item.title}
       description={item.description}
       photo={item.photo}
       mainTags={item.mainTags}
       secondaryTags={item.secondaryTags}
+      recommendations = {item.recommendations}
     />
   ));
 

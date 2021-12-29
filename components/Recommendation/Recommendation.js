@@ -36,12 +36,15 @@ const Recommendation = (props) => {
 
   return (
     <React.Fragment>
-      <div
-        className={classes.recommendation}
-        onClick={showRecommendationPreview}
-      >
-        {/* BUILD A CUSTOM IMAGE PATH FOR EACH ROUTE DEPENDING ON HREF */}
-        <Image quality={100} layout="fill" src={imagePathName} />
+      <div className={classes.recommendation}>
+        <h2>{props.title}</h2>
+        <div
+          className={classes.recommendationPhoto}
+          onClick={((showRecommendationPreview))}
+        >
+          {/* BUILD A CUSTOM IMAGE PATH FOR EACH ROUTE DEPENDING ON HREF */}
+          <Image quality={100} layout="fill" src={imagePathName} />
+        </div>
       </div>
       {
         <Portal selector="#recommendationPreviewOverlay">
@@ -51,18 +54,20 @@ const Recommendation = (props) => {
             unmountOnExit
             in={openRecommendationPreview}
             timeout={200}
-            onEntering={()=>setRecommendationOpened(true)}
+            onEntering={() => setRecommendationOpened(true)}
           >
             {(state) => (
               <RecommendationPreview
                 show={state}
                 openRecommendationPreview
                 setOpenFalse={() => setOpenRecommendationPreview(false)}
+                id={props.id}
                 title={props.title}
                 description={props.description}
-                mainTags = {props.mainTags}
-                secondaryTags = {props.secondaryTags}
+                mainTags={props.mainTags}
+                secondaryTags={props.secondaryTags}
                 photo={imagePathName}
+                recommendations = {props.recommendations}
                 recommendationOpened={recommendationOpened}
               />
             )}
