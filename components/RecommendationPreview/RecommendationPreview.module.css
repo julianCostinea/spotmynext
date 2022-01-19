@@ -4,7 +4,7 @@
   height: 70vh;
   overflow-y: scroll;
   left: 5%;
-  top: 10%;
+  top: 2%;
   z-index: 200;
   background-color: var(--off-secondary-color);
   box-sizing: border-box;
@@ -144,8 +144,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem;
-    width: 90vw;
-    min-height: 80vh;
-    left: 5%;
+    width: 98vw;
+    min-height: 95vh;
+    left: .5%;
   }
 }
