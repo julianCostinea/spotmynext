@@ -37,7 +37,7 @@ const Recommendation = (props) => {
   return (
     <React.Fragment>
       <div className={classes.recommendation}>
-        <h2>{props.title}</h2>
+        <h2 className={classes.recommendationTitle}>{props.title}</h2>
         <div
           className={classes.recommendationPhoto}
           onClick={((showRecommendationPreview))}

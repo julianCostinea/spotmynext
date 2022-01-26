@@ -10,20 +10,16 @@ import * as Icons from "../UI/Icons/Icons";
 
 const SpotBox = (props) => {
   let item;
-  let collection;
 
   switch (props.category) {
     case "videogames":
       item = "video game";
-      collection = "video-games";
       break;
     case "movies":
       item = "movie";
-      collection = "movies";
       break;
     case "books":
       item = "book";
-      collection = "books";
       break;
     default:
       break;
@@ -35,21 +31,19 @@ const SpotBox = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   function submitFormHandler(event) {
+    const fetchId = searchTermInputRef.current.value;
+    setErrorHeader('');
     event.preventDefault();
+    if (!fetchId) {
+      setErrorHeader(`Field must contain at least two letters.`);
+      return;
+    }
     setIsLoading(true);
 
-    const enteredInput = searchTermInputRef.current.value;
-
-    fetch(`/api/${collection}`, {
-      method: "POST",
-      body: JSON.stringify(enteredInput),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
       .then((response) => response.json())
       .then((data) => {
-        if (data.result.length === 0) {
+        if (!data.result) {
           setErrorHeader(`Could not find any ${item}.`);
           return;
         }
@@ -68,7 +62,7 @@ const SpotBox = (props) => {
       photo={item.photo}
       mainTags={item.mainTags}
       secondaryTags={item.secondaryTags}
-      recommendations = {item.recommendations}
+      recommendations={item.recommendations}
     />
   ));
 
@@ -97,22 +91,22 @@ const SpotBox = (props) => {
           title={`${item} 1`}
           photo={"persona5.jpg"}
           description="cing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags = {"PlayStation 4, PlayStation 3"}
-          secondaryTags = {"JRPG, Action, Simulation"}
+          mainTags={"PlayStation 4, PlayStation 3"}
+          secondaryTags={"JRPG, Action, Simulation"}
         />
         <Recommendation
           title={`${item} 2`}
           photo={"persona5.jpg"}
           description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags = {"PlayStation 4, PlayStation 3"}
-          secondaryTags = {"JRPG, Action, Simulation"}
+          mainTags={"PlayStation 4, PlayStation 3"}
+          secondaryTags={"JRPG, Action, Simulation"}
         />
         <Recommendation
           title={`${item} 3`}
           photo={"persona5.jpg"}
           description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags = {"PlayStation 4, PlayStation 3"}
-          secondaryTags = {"JRPG, Action, Simulation"}
+          mainTags={"PlayStation 4, PlayStation 3"}
+          secondaryTags={"JRPG, Action, Simulation"}
         />
       </Recommendations>
     </React.Fragment>
