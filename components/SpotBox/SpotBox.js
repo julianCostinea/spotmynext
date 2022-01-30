@@ -31,11 +31,11 @@ const SpotBox = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   function submitFormHandler(event) {
-    const fetchId = searchTermInputRef.current.value;
-    setErrorHeader('');
     event.preventDefault();
-    if (!fetchId) {
-      setErrorHeader(`Field must contain at least two letters.`);
+    const fetchId = searchTermInputRef.current.value.trim();
+    setErrorHeader("");
+    if (!fetchId || fetchId.length < 3) {
+      setErrorHeader(`Field must contain at least three letters.`);
       return;
     }
     setIsLoading(true);
@@ -43,8 +43,9 @@ const SpotBox = (props) => {
     fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
       .then((response) => response.json())
       .then((data) => {
-        if (!data.result) {
-          setErrorHeader(`Could not find any ${item}.`);
+        if (data.result.length == 0) {
+          setErrorHeader(`Could not find any ${item}. Try a different search.`);
+          setIsLoading(false);
           return;
         }
         setItems(data.result);
@@ -77,6 +78,7 @@ const SpotBox = (props) => {
             ref={searchTermInputRef}
             className={classes.searchTerm}
             placeholder={props.placeholder}
+            required
           />
           <button type="submit" className={classes.searchButton}>
             {Icons.SearchIcon}

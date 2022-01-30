@@ -26,9 +26,11 @@ export function SideDrawerContextProvider(props) {
   }
   function showBackdropHandler() {
     setShowBackdrop(true);
+    document.body.style.overflow = "hidden";
   }
   function hideBackdropHandler(){
     setShowBackdrop(false);
+    document.body.style.overflow = "auto";
   }
   function sideDrawerToggleHandler() {
     setShowMenu(!showMenu);

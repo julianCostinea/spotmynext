@@ -3,20 +3,31 @@
 }
 .recommendationPhoto {
   width: 15rem;
+  margin: 0 auto;
   height: 19rem;
   border: 2px solid var(--main-color);
   transition: all 0.3s;
   position: relative;
   background-color: lightgray;
+  margin-bottom: 1rem;
 }
 /* .recommendation:hover {
   transform: scale(1.2);
 } */
 .recommendationTitle{
-  min-height: 4rem;
+  min-height: 3.5rem;
+}
+h2.recommendationTitle{
+  margin-block-start: 0em!important;
+  margin-block-end: 0em!important;
 }
 @media (hover: hover) and (pointer: fine) {
   .recommendation:hover > .recommendationPhoto{
     transform: scale(1.1);
+  }
+}
+@media (min-width: 780px) {
+  .recommendationPhoto{
+    margin-bottom: 0px;
   }
 }

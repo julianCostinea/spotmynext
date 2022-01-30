@@ -1,8 +1,10 @@
 .recommendation {
+  margin: 0 auto;
   cursor: pointer;
 }
 .recommendationPhoto {
   width: 15rem;
+  margin: 0 auto;
   height: 19rem;
   border: 2px solid var(--main-color);
   transition: all 0.3s;

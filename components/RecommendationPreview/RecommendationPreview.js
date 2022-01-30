@@ -4,12 +4,23 @@ import SideDrawerContext from "../../store/SideDrawerContext";
 import Tag from "../Tag/Tag";
 import Recommendations from "../recommendations/recommendations";
 import RecommendationInPreview from "../RecommendationInPreview/RecommendationInPreview";
+import Loader from "../UI/Loader/Loader";
 
 import classes from "./RecommendationPreview.module.css";
 
 const RecommendationPreview = (props) => {
+  let mainTags;
+  let secondaryTags;
+  let previewRecommendations = [];
+  let sortedPreviewRecommendations;
+
+  const [fetchedData, setfetchedData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sideDrawerCtx = useContext(SideDrawerContext);
+
   function fetchRecommendationsInPreview(previewFetchId) {
-    // setIsLoading(true);
+    setIsLoading(true);
     fetch(`/api/${window.location.pathname}/${previewFetchId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -17,15 +28,56 @@ const RecommendationPreview = (props) => {
           setErrorHeader(`Something went wrong`);
           return;
         }
-        setfetchedTitle(data.result.title);
-        // setIsLoading(false);
+        //fetch all in an object
+        setfetchedData(data.result);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error));
   }
+  function convertTags(tags, secondary) {
+    if (secondary) {
+      if (fetchedData) {
+        return fetchedData.secondaryTags.split(",").map((tag, index) => (
+          <Tag key={index} secondaryTag>
+            {tag}
+          </Tag>
+        ));
+      }
+      return tags.split(",").map((tag, index) => (
+        <Tag key={index} secondaryTag>
+          {tag}
+        </Tag>
+      ));
+    }
+    if (fetchedData) {
+      return fetchedData.mainTags
+        .split(",")
+        .map((tag, index) => <Tag key={index}>{tag}</Tag>);
+    }
+    return tags.split(",").map((tag, index) => <Tag key={index}>{tag}</Tag>);
+  }
+  function convertRecommendationsInPreview(recommendationsInPreview) {
+    for (const singlePreviewRecommendation in recommendationsInPreview) {
+      previewRecommendations.push([
+        singlePreviewRecommendation,
+        ...recommendationsInPreview[singlePreviewRecommendation],
+      ]);
+    }
+    previewRecommendations.sort(function (a, b) {
+      return b[1] - a[1];
+    });
 
-  const [fetchedTitle, setfetchedTitle] = useState();
+    return previewRecommendations.map((item, index) => (
+      <RecommendationInPreview
+        key={item[0]}
+        id={item[0]}
+        title={item[2]}
+        photo={item[3]}
+        fetchNextPreview={fetchRecommendationsInPreview}
+      />
+    ));
+  }
 
-  const sideDrawerCtx = useContext(SideDrawerContext);
   const closeRecommendationPreview = () => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
@@ -47,56 +99,47 @@ const RecommendationPreview = (props) => {
     classes.imageContainer,
     props.recommendationOpened ? classes.imageAnimation : null,
   ];
-  const mainTags = props.mainTags
-    .split(",")
-    .map((tag, index) => <Tag key={index}>{tag}</Tag>);
-  const secondaryTags = props.secondaryTags.split(",").map((tag, index) => (
-    <Tag key={index} secondaryTag>
-      {tag}
-    </Tag>
-  ));
+
+  mainTags = convertTags(props.mainTags, false);
+  secondaryTags = convertTags(props.secondaryTags, true);
+
+  if (fetchedData) {
+    sortedPreviewRecommendations = convertRecommendationsInPreview(
+      fetchedData.recommendations
+    );
+  } else {
+    sortedPreviewRecommendations = convertRecommendationsInPreview(
+      props.recommendations
+    );
+  }
 
   //RecommendationsInPreview
-  const previewRecommendations = [];
-  for (const singlePreviewRecommendation in props.recommendations) {
-    previewRecommendations.push([
-      singlePreviewRecommendation,
-      ...props.recommendations[singlePreviewRecommendation],
-    ]);
-  }
-  previewRecommendations.sort(function (a, b) {
-    return b[1] - a[1];
-  });
-  //In DB recommendations add: id, title, photo and score
-  //Then on new RecommendationPreview click, query the recommendaitons table
-  const sortedPreviewRecommendations = previewRecommendations.map(
-    (item, index) => (
-      <RecommendationInPreview
-        key={item[0]}
-        id={item[0]}
-        title={item[2]}
-        photo={item[3]}
-        fetchNextPreview={fetchRecommendationsInPreview}
-      />
-    )
-  );
 
   // ADD SLIDE IN ANIMATION WITH REACT TRANSITION GROUP?
   return (
     <div className={recommendationPreviewClasses.join(" ")}>
+      {isLoading ? <Loader isLoading={isLoading} /> : null}
       <div className={classes.currentItem}>
         <div className={classes.currentItemPhoto}>
           <h2
             className={props.recommendationOpened ? classes.titleClasses : null}
           >
-            {fetchedTitle ? fetchedTitle : props.title}
+            {fetchedData ? fetchedData.title : props.title}
           </h2>
           <div className={imageClasses.join(" ")}>
-            <Image quality={100} layout="fill" src={props.photo} />
+            <Image
+              quality={100}
+              layout="fill"
+              src={
+                fetchedData
+                  ? `/images${window.location.pathname}/${fetchedData.photo}`
+                  : props.photo
+              }
+            />
           </div>
         </div>
         <div className={descriptionClasses.join(" ")}>
-          <p>{props.description}</p>
+          <p>{fetchedData ? fetchedData.description : props.description}</p>
           <div style={{ marginBottom: "5px" }}>{mainTags}</div>
           {secondaryTags}
         </div>
@@ -105,34 +148,6 @@ const RecommendationPreview = (props) => {
         <h1 className={classes.recommendedItemsHeader}>Recommended:</h1>
         <Recommendations>
           {sortedPreviewRecommendations}
-          <RecommendationInPreview
-            title={`Persona 1`}
-            photo={"persona5.jpg"}
-            description="cing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-            mainTags={"PlayStation 4, PlayStation 3"}
-            secondaryTags={"JRPG, Action, Simulation"}
-          />
-          <RecommendationInPreview
-            title={`Persona 2`}
-            photo={"persona5.jpg"}
-            description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-            mainTags={"PlayStation 4, PlayStation 3"}
-            secondaryTags={"JRPG, Action, Simulation"}
-          />
-          <RecommendationInPreview
-            title={`Persona 3`}
-            photo={"persona5.jpg"}
-            description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-            mainTags={"PlayStation 4, PlayStation 3"}
-            secondaryTags={"JRPG, Action, Simulation"}
-          />
-          <RecommendationInPreview
-            title={`Persona 4`}
-            photo={"persona5.jpg"}
-            description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-            mainTags={"PlayStation 4, PlayStation 3"}
-            secondaryTags={"JRPG, Action, Simulation"}
-          />
         </Recommendations>
       </div>
 
