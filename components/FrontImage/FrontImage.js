@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const FrontImage = (props) => {
   return (
-    <div className={classes.imageContainer}>
+    <div className={`${classes.imageContainer} ${classes.loads}`}>
       <Image 
         quality={100} 
         layout="fill"

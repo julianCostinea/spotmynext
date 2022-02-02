@@ -1,7 +1,7 @@
 import {connectToDatabase} from "../../../lib/mongodb";
 
 async function handler(req, res) {
-  if (req.method === "POST") {
+  if (req.method === "GET") {
     const searchTerm = req.body.searchTerm;
 
     try {

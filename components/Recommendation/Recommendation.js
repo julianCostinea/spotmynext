@@ -39,7 +39,7 @@ const Recommendation = (props) => {
       <div className={classes.recommendation}>
         <h2 className={classes.recommendationTitle}>{props.title}</h2>
         <div
-          className={classes.recommendationPhoto}
+          className={`${classes.recommendationPhoto} ${classes.loads}`}
           onClick={((showRecommendationPreview))}
         >
           {/* BUILD A CUSTOM IMAGE PATH FOR EACH ROUTE DEPENDING ON HREF */}
