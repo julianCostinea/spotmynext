@@ -11,6 +11,7 @@ import classes from "./RecommendationPreview.module.css";
 const RecommendationPreview = (props) => {
   let mainTags;
   let secondaryTags;
+  let parentId = props.id;
   let previewRecommendations = [];
   let sortedPreviewRecommendations;
 
@@ -56,6 +57,7 @@ const RecommendationPreview = (props) => {
     }
     return tags.split(",").map((tag, index) => <Tag key={index}>{tag}</Tag>);
   }
+  
   function convertRecommendationsInPreview(recommendationsInPreview) {
     for (const singlePreviewRecommendation in recommendationsInPreview) {
       previewRecommendations.push([
@@ -71,11 +73,15 @@ const RecommendationPreview = (props) => {
       <RecommendationInPreview
         key={item[0]}
         id={item[0]}
+        parentId = {parentId}
         title={item[2]}
         photo={item[3]}
         fetchNextPreview={fetchRecommendationsInPreview}
       />
     ));
+  }
+  if (fetchedData) {
+    parentId = fetchedData._id;
   }
 
   const closeRecommendationPreview = () => {

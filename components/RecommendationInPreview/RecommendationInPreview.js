@@ -10,6 +10,25 @@ const RecommendationInPreview = (props) => {
   function voteUpRecommendation(event) {
     event.stopPropagation();
     //Add thumbs up functionality here
+    // fetch(`/api/${window.location.pathname}/${props.id}`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     if (data.result.length === 0) {
+    //       console.log("====================================");
+    //       console.log("hello");
+    //       console.log("====================================");
+    //       return;
+    //     }
+    //   })
+    //   .catch((error) => console.log(error));
+    console.log('====================================');
+    console.log(props.parentId);
+    console.log('====================================');
   }
 
   useEffect(() => {
