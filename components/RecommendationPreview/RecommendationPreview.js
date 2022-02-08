@@ -99,11 +99,11 @@ const RecommendationPreview = (props) => {
 
   const descriptionClasses = [
     classes.currentItemDescription,
-    props.recommendationOpened ? classes.descriptionAnimation : null,
+    props.show ? classes.descriptionAnimation : null,
   ];
   const imageClasses = [
     classes.imageContainer,
-    props.recommendationOpened ? classes.imageAnimation : null,
+    props.show ? classes.imageAnimation : null,
   ];
 
   mainTags = convertTags(props.mainTags, false);
@@ -128,7 +128,7 @@ const RecommendationPreview = (props) => {
       <div className={classes.currentItem}>
         <div className={classes.currentItemPhoto}>
           <h2
-            className={props.recommendationOpened ? classes.titleClasses : null}
+            className={props.show ? classes.titleClasses : null}
           >
             {fetchedData ? fetchedData.title : props.title}
           </h2>

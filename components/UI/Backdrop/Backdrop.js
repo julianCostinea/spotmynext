@@ -6,9 +6,14 @@ import classes from "./Backdrop.module.css";
 const Backdrop = () => {
     const sideDrawerCtx = useContext(SideDrawerContext);
 
+    function hideBackdrop(){
+      sideDrawerCtx.hideBackdropHandler();
+      sideDrawerCtx.hideSideDrawer();
+    }
+
   return (
     sideDrawerCtx.showBackdrop ? (
-    <div className={classes.Backdrop}></div>
+    <div onClick={hideBackdrop} className={classes.Backdrop}></div>
   ) : null )
 };
 
