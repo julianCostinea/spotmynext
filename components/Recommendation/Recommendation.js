@@ -59,7 +59,6 @@ const Recommendation = (props) => {
             {(state) => (
               <RecommendationPreview
                 show={state}
-                openRecommendationPreview
                 setOpenFalse={() => setOpenRecommendationPreview(false)}
                 id={props.id}
                 title={props.title}
