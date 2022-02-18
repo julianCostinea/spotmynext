@@ -38,6 +38,10 @@ h2.recommendationTitle{
   border-radius: 5px;
   cursor: pointer;
 }
+.voteUpButtonActive{
+  opacity: 1;
+}
+
 .loads {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

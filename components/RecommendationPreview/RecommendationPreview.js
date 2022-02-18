@@ -14,11 +14,35 @@ const RecommendationPreview = (props) => {
   let parentId = props.id;
   let previewRecommendations = [];
   let sortedPreviewRecommendations;
+  let votedIds = [];
 
   const [fetchedData, setfetchedData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const sideDrawerCtx = useContext(SideDrawerContext);
+
+  function voteButtonHandler(type, id) {
+    if (!type) {
+      votedIds.pop(id);
+      return;
+    }
+    votedIds.push(id);
+  }
+
+  function hideRecommendationPreviewOnBackdropClick(event) {
+    if (event.target.id === "backdrop") {
+      closeRecommendationPreview();
+      return;
+    }
+  }
+  useEffect(() => {
+    window.addEventListener("click", hideRecommendationPreviewOnBackdropClick);
+    return () =>
+      window.removeEventListener(
+        "click",
+        hideRecommendationPreviewOnBackdropClick
+      );
+  }, []);
 
   function fetchRecommendationsInPreview(previewFetchId) {
     setIsLoading(true);
@@ -29,7 +53,6 @@ const RecommendationPreview = (props) => {
           setErrorHeader(`Something went wrong`);
           return;
         }
-        //fetch all in an object
         setfetchedData(data.result);
         setIsLoading(false);
       })
@@ -57,7 +80,7 @@ const RecommendationPreview = (props) => {
     }
     return tags.split(",").map((tag, index) => <Tag key={index}>{tag}</Tag>);
   }
-  
+
   function convertRecommendationsInPreview(recommendationsInPreview) {
     for (const singlePreviewRecommendation in recommendationsInPreview) {
       previewRecommendations.push([
@@ -73,10 +96,10 @@ const RecommendationPreview = (props) => {
       <RecommendationInPreview
         key={item[0]}
         id={item[0]}
-        parentId = {parentId}
         title={item[2]}
         photo={item[3]}
         fetchNextPreview={fetchRecommendationsInPreview}
+        voteButtonHandler={voteButtonHandler}
       />
     ));
   }
@@ -87,6 +110,25 @@ const RecommendationPreview = (props) => {
   const closeRecommendationPreview = () => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
+    const preparedVotedIds =  `recommendations.${votedIds}.0`;
+    const data = {parentId, preparedVotedIds};
+
+    fetch(`/api/${window.location.pathname}/singleItem`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result.length === 0) {
+          console.log("Something went wrong");
+          return;
+        }
+        //check IP before voting. If the same and State ="voted", say you already voted
+      })
+      .catch((error) => console.log(error));
   };
   const recommendationPreviewClasses = [
     classes.RecommendationPreview,
@@ -119,17 +161,12 @@ const RecommendationPreview = (props) => {
     );
   }
 
-  //RecommendationsInPreview
-
-  // ADD SLIDE IN ANIMATION WITH REACT TRANSITION GROUP?
   return (
     <div className={recommendationPreviewClasses.join(" ")}>
       {isLoading ? <Loader isLoading={isLoading} /> : null}
       <div className={classes.currentItem}>
         <div className={classes.currentItemPhoto}>
-          <h2
-            className={props.show ? classes.titleClasses : null}
-          >
+          <h2 className={props.show ? classes.titleClasses : null}>
             {fetchedData ? fetchedData.title : props.title}
           </h2>
           <div className={imageClasses.join(" ")}>
@@ -152,9 +189,7 @@ const RecommendationPreview = (props) => {
       </div>
       <div className={classes.recommendedItems}>
         <h1 className={classes.recommendedItemsHeader}>Recommended:</h1>
-        <Recommendations>
-          {sortedPreviewRecommendations}
-        </Recommendations>
+        <Recommendations>{sortedPreviewRecommendations}</Recommendations>
       </div>
 
       <div

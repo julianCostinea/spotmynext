@@ -13,7 +13,7 @@ const Backdrop = () => {
 
   return (
     sideDrawerCtx.showBackdrop ? (
-    <div onClick={hideBackdrop} className={classes.Backdrop}></div>
+    <div id="backdrop" onClick={hideBackdrop} className={classes.Backdrop}></div>
   ) : null )
 };
 
