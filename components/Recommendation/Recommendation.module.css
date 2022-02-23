@@ -17,6 +17,10 @@
 .recommendationTitle{
   min-height: 4rem;
 }
+h2.recommendationTitle{
+  margin-block-start: 0em!important;
+  margin-block-end: 0em!important;
+}
 .loads {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

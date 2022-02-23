@@ -9,7 +9,6 @@
   transition: all 0.3s;
   position: relative;
   background-color: lightgray;
-  margin-bottom: 1rem;
 }
 /* .recommendation:hover {
   transform: scale(1.2);

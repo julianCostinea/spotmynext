@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import SideDrawerContext from "../../store/SideDrawerContext";
 import Tag from "../Tag/Tag";
@@ -15,26 +15,15 @@ const RecommendationPreview = (props) => {
   let previewRecommendations = [];
   let sortedPreviewRecommendations;
   let votedIds = [];
+  const votedIdsRef = useRef();
+  const parentIdRef = useRef();
+  parentIdRef.current = parentId;
 
   const [fetchedData, setfetchedData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const sideDrawerCtx = useContext(SideDrawerContext);
 
-  function voteButtonHandler(type, id) {
-    if (!type) {
-      votedIds.pop(id);
-      return;
-    }
-    votedIds.push(id);
-  }
-
-  function hideRecommendationPreviewOnBackdropClick(event) {
-    if (event.target.id === "backdrop") {
-      closeRecommendationPreview();
-      return;
-    }
-  }
   useEffect(() => {
     window.addEventListener("click", hideRecommendationPreviewOnBackdropClick);
     return () =>
@@ -44,8 +33,47 @@ const RecommendationPreview = (props) => {
       );
   }, []);
 
+  function voteButtonHandler(type, id) {
+    if (!type) {
+      votedIds.pop(id);
+      votedIdsRef.current = votedIds;
+      return;
+    }
+    votedIds.push(id);
+    votedIdsRef.current = votedIds;
+  }
+
+  function hideRecommendationPreviewOnBackdropClick(event) {
+    if (event.target.id === "backdrop") {
+      props.setOpenFalse();
+      sideDrawerCtx.hideBackdropHandler();
+      const data = { parentId : parentIdRef.current, votedIds: votedIdsRef.current };
+      fetchVoteRecommendations(data);
+    }
+  }
+
+  function fetchVoteRecommendations(data) {
+    fetch(`/api/${window.location.pathname}/singleItem`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result.length === 0) {
+          console.log("Something went wrong");
+          return;
+        }
+        //check IP before voting. If the same and State ="voted", say you already voted
+      })
+      .catch((error) => console.log(error));
+  }
+
   function fetchRecommendationsInPreview(previewFetchId) {
     setIsLoading(true);
+    document.getElementById("recommendationPreview").scrollTo(0, 0);
     fetch(`/api/${window.location.pathname}/${previewFetchId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -82,12 +110,9 @@ const RecommendationPreview = (props) => {
   }
 
   function convertRecommendationsInPreview(recommendationsInPreview) {
-    for (const singlePreviewRecommendation in recommendationsInPreview) {
-      previewRecommendations.push([
-        singlePreviewRecommendation,
-        ...recommendationsInPreview[singlePreviewRecommendation],
-      ]);
-    }
+    previewRecommendations = recommendationsInPreview.map(
+      (singleRecommendation) => Object.values(singleRecommendation)
+    );
     previewRecommendations.sort(function (a, b) {
       return b[1] - a[1];
     });
@@ -105,30 +130,14 @@ const RecommendationPreview = (props) => {
   }
   if (fetchedData) {
     parentId = fetchedData._id;
+    parentIdRef.current = parentId;
   }
 
   const closeRecommendationPreview = () => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
-    const preparedVotedIds =  `recommendations.${votedIds}.0`;
-    const data = {parentId, preparedVotedIds};
-
-    fetch(`/api/${window.location.pathname}/singleItem`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result.length === 0) {
-          console.log("Something went wrong");
-          return;
-        }
-        //check IP before voting. If the same and State ="voted", say you already voted
-      })
-      .catch((error) => console.log(error));
+    const data = { parentId, votedIds };
+    fetchVoteRecommendations(data);
   };
   const recommendationPreviewClasses = [
     classes.RecommendationPreview,
@@ -162,7 +171,10 @@ const RecommendationPreview = (props) => {
   }
 
   return (
-    <div className={recommendationPreviewClasses.join(" ")}>
+    <div
+      id="recommendationPreview"
+      className={recommendationPreviewClasses.join(" ")}
+    >
       {isLoading ? <Loader isLoading={isLoading} /> : null}
       <div className={classes.currentItem}>
         <div className={classes.currentItemPhoto}>

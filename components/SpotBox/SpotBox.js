@@ -32,6 +32,7 @@ const SpotBox = (props) => {
 
   function submitFormHandler(event) {
     event.preventDefault();
+    document.forms[0].querySelector('input').blur();
     const fetchId = searchTermInputRef.current.value.trim();
     setErrorHeader("");
     if (!fetchId || fetchId.length < 3) {
