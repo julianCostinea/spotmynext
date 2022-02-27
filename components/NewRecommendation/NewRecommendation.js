@@ -10,7 +10,7 @@ const NewRecommendation = (props) => {
         height={40}
         src={`/images/videogames/${props.photo}`}
       />
-      {props.title}
+      <p>{props.title}</p>
     </div>
   );
 };
