@@ -3,9 +3,6 @@ import { ObjectId } from "mongodb";
 
 async function handler(req, res) {
   if (req.method === "PUT") {
-    console.log('====================================');
-    console.log(req.body.votedIds);
-    console.log('====================================');
     try {
       const { db } = await connectToDatabase();
       const videoGamesCollection = db.collection("videogames");

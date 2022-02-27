@@ -86,7 +86,7 @@ const SpotBox = (props) => {
           </button>
         </div>
       </form>
-      {isLoading ? <Loader isLoading={isLoading} /> : null}
+      {isLoading ? <Loader /> : null}
       <Recommendations>{fetchedRecommendations}</Recommendations>
       <h1>Hot picks: </h1>
       <Recommendations>

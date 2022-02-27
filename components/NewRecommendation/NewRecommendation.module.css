@@ -1,0 +1,10 @@
+.newRecommendation{
+    padding: 2px;
+    border: 2px solid #5e71af;
+    border-radius: 3px;
+    color: #5e71af;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }

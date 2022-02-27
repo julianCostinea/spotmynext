@@ -10,9 +10,20 @@
   position: relative;
   background-color: lightgray;
 }
+
 /* .recommendation:hover {
   transform: scale(1.2);
 } */
+
+.firstPlace{
+  box-shadow: 6px 6px 12px 4px rgba(255,215,0,0.44);
+}
+.secondPlace{
+  box-shadow: 4px 4px 12px 4px gray;
+}
+.thirdPlace{
+  box-shadow: 6px 6px 12px 4px #CD7F32;
+}
 .recommendationTitle{
   min-height: 3.5rem;
 }

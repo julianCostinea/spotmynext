@@ -5,22 +5,28 @@ import Tag from "../Tag/Tag";
 import Recommendations from "../recommendations/recommendations";
 import RecommendationInPreview from "../RecommendationInPreview/RecommendationInPreview";
 import Loader from "../UI/Loader/Loader";
+import * as Icons from "../UI/Icons/Icons";
 
 import classes from "./RecommendationPreview.module.css";
+import NewRecommendation from "../NewRecommendation/NewRecommendation";
 
 const RecommendationPreview = (props) => {
   let mainTags;
   let secondaryTags;
+  let fetchedNewRecommendations;
   let parentId = props.id;
   let previewRecommendations = [];
   let sortedPreviewRecommendations;
   let votedIds = [];
+  const searchTermInputRef = useRef();
   const votedIdsRef = useRef();
   const parentIdRef = useRef();
   parentIdRef.current = parentId;
 
   const [fetchedData, setfetchedData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [isFormLoading, setIsFormLoading] = useState(false);
+  const [newRecommendations, setNewRecommendations] = useState();
 
   const sideDrawerCtx = useContext(SideDrawerContext);
 
@@ -47,8 +53,13 @@ const RecommendationPreview = (props) => {
     if (event.target.id === "backdrop") {
       props.setOpenFalse();
       sideDrawerCtx.hideBackdropHandler();
-      const data = { parentId : parentIdRef.current, votedIds: votedIdsRef.current };
-      fetchVoteRecommendations(data);
+      if (votedIdsRef.current) {
+        const data = {
+          parentId: parentIdRef.current,
+          votedIds: votedIdsRef.current,
+        };
+        fetchVoteRecommendations(data);
+      }
     }
   }
 
@@ -86,6 +97,27 @@ const RecommendationPreview = (props) => {
       })
       .catch((error) => console.log(error));
   }
+
+  function fetchNewRecommendationInPreview() {
+    setIsFormLoading(false);
+    if (searchTermInputRef.current.value.length > 2) {
+      setIsFormLoading(true);
+      const fetchId = searchTermInputRef.current.value.trim();
+      fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result.length == 0) {
+            console.log(`Could not find any title. Try a different search.`);
+            setIsFormLoading(false);
+            return;
+          }
+          setNewRecommendations(data.result);
+          setIsFormLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }
+
   function convertTags(tags, secondary) {
     if (secondary) {
       if (fetchedData) {
@@ -117,27 +149,47 @@ const RecommendationPreview = (props) => {
       return b[1] - a[1];
     });
 
-    return previewRecommendations.map((item, index) => (
-      <RecommendationInPreview
-        key={item[0]}
-        id={item[0]}
-        title={item[2]}
-        photo={item[3]}
-        fetchNextPreview={fetchRecommendationsInPreview}
-        voteButtonHandler={voteButtonHandler}
-      />
-    ));
+    return previewRecommendations.map((item, index) => {
+      return (
+        <RecommendationInPreview
+          key={item[0]}
+          id={item[0]}
+          standing={`${
+            index === 0
+              ? "firstPlace"
+              : index === 1
+              ? "secondPlace"
+              : index === 2
+              ? "thirdPlace"
+              : null
+          }`}
+          title={item[2]}
+          photo={item[3]}
+          fetchNextPreview={fetchRecommendationsInPreview}
+          voteButtonHandler={voteButtonHandler}
+        />
+      );
+    });
   }
   if (fetchedData) {
     parentId = fetchedData._id;
     parentIdRef.current = parentId;
   }
+  if (newRecommendations) {
+    fetchedNewRecommendations = newRecommendations.map((item, index) => {
+      return (
+        <NewRecommendation key={index} title={item.title} photo={item.photo} />
+      );
+    });
+  }
 
   const closeRecommendationPreview = () => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
-    const data = { parentId, votedIds };
-    fetchVoteRecommendations(data);
+    if (votedIds) {
+      const data = { parentId, votedIds };
+      fetchVoteRecommendations(data);
+    }
   };
   const recommendationPreviewClasses = [
     classes.RecommendationPreview,
@@ -175,7 +227,7 @@ const RecommendationPreview = (props) => {
       id="recommendationPreview"
       className={recommendationPreviewClasses.join(" ")}
     >
-      {isLoading ? <Loader isLoading={isLoading} /> : null}
+      {isLoading ? <Loader /> : null}
       <div className={classes.currentItem}>
         <div className={classes.currentItemPhoto}>
           <h2 className={props.show ? classes.titleClasses : null}>
@@ -201,6 +253,28 @@ const RecommendationPreview = (props) => {
       </div>
       <div className={classes.recommendedItems}>
         <h1 className={classes.recommendedItemsHeader}>Recommended:</h1>
+        <form action="" className={classes.wrap}>
+          <label htmlFor="searchTerm" className={classes.searchTermLabel}>
+            Or recommend a different title
+          </label>
+          <div className={classes.search}>
+            <input
+              name="searchTerm"
+              id="searchTerm"
+              type="text"
+              ref={searchTermInputRef}
+              className={classes.searchTerm}
+              placeholder="Mario..."
+              onChange={fetchNewRecommendationInPreview}
+              required
+            />
+            <button type="submit" className={classes.searchButton}>
+              {Icons.PlusIcon}
+            </button>
+          </div>
+          {fetchedNewRecommendations}
+          {isFormLoading ? <Loader formLoader /> : null}
+        </form>
         <Recommendations>{sortedPreviewRecommendations}</Recommendations>
       </div>
 

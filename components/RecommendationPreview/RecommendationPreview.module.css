@@ -30,7 +30,7 @@
 }
 .currentItemDescription {
 }
-.recommendedItemsHeader{
+.recommendedItemsHeader {
   color: #5e71af;
 }
 .descriptionAnimation {
@@ -41,6 +41,47 @@
 }
 .titleClasses {
   animation: showTitle 0.4s ease-out forwards;
+}
+.wrap {
+  width: 60% !important;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+.search {
+  display: flex;
+  width: 100% !important;
+}
+.searchTermLabel{
+  color: #5e71af;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.searchTerm {
+  border: 3px solid #5e71af;
+  padding: 5px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: var(--off-line-active);
+  font-size: 1.5rem;
+  width: 100% !important;
+}
+
+.searchTerm:focus {
+  color: var(--line-active);
+}
+
+.searchButton {
+  border: 1px solid #5e71af;
+  background: #5e71af;
+  text-align: center;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.searchButton svg {
+  height: 2rem;
+  width: 2rem;
 }
 
 .ClosePreview {
@@ -150,4 +191,7 @@
     min-height: 95vh;
     left: 1%;
   }
-}
+  .wrap {
+    width: 20% !important;
+  }
+} 

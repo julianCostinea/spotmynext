@@ -19,6 +19,24 @@ const RecommendationInPreview = (props) => {
     setVoted(true);
   }
 
+  let attachedClasses = [classes.recommendationPhoto, classes.loads];
+
+  switch (props.standing) {
+    case "firstPlace":
+      attachedClasses.push(classes.firstPlace);
+      break;
+    case "secondPlace":
+      attachedClasses.push(classes.secondPlace);
+      break;
+    case "thirdPlace":
+      attachedClasses.push(classes.thirdPlace);
+      break;
+
+    default:
+      null;
+      break;
+  }
+
   useEffect(() => {
     switch (window.location.pathname) {
       case "/videogames":
@@ -41,13 +59,15 @@ const RecommendationInPreview = (props) => {
       <div className={classes.recommendation}>
         <h2 className={classes.recommendationTitle}>{props.title}</h2>
         <div
-          className={`${classes.recommendationPhoto} ${classes.loads}`}
+          className={attachedClasses.join(" ")}
           onClick={() => props.fetchNextPreview(props.id)}
         >
           <Image quality={100} layout="fill" src={imagePathName} />
           <button
             title="Recommend this title"
-            className={`${classes.voteUpButton} ${voted ? classes.voteUpButtonActive : null }`}
+            className={`${classes.voteUpButton} ${
+              voted ? classes.voteUpButtonActive : null
+            }`}
             onClick={voteUpRecommendation}
           >
             {Icons.ThumbsupIcon}
