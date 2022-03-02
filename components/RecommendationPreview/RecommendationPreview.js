@@ -100,17 +100,15 @@ const RecommendationPreview = (props) => {
 
   function fetchNewRecommendationInPreview() {
     setIsFormLoading(false);
+    if (searchTermInputRef.current.value.length === 0) {
+      setNewRecommendations(null);
+    }
     if (searchTermInputRef.current.value.length > 2) {
       setIsFormLoading(true);
       const fetchId = searchTermInputRef.current.value.trim();
       fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.result.length == 0) {
-            console.log(`Could not find any title. Try a different search.`);
-            setIsFormLoading(false);
-            return;
-          }
           setNewRecommendations(data.result);
           setIsFormLoading(false);
         })
@@ -177,6 +175,9 @@ const RecommendationPreview = (props) => {
   }
   if (newRecommendations) {
     fetchedNewRecommendations = newRecommendations.map((item, index) => {
+      if (item._id == parentId) {
+        return;
+      }
       return (
         <NewRecommendation key={index} title={item.title} photo={item.photo} />
       );
