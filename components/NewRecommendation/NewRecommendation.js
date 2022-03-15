@@ -11,11 +11,11 @@ const NewRecommendation = (props) => {
     event.preventDefault();
     event.stopPropagation();
     if (voted) {
-      // props.voteButtonHandler(false, props.id);
+      props.voteButtonHandler(false, props.id);
       setVoted(false);
       return;
     }
-    // props.voteButtonHandler(true, props.id);
+    props.voteButtonHandler(true, props.id);
     setVoted(true);
   }
   return (

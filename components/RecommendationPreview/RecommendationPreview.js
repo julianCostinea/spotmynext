@@ -84,7 +84,13 @@ const RecommendationPreview = (props) => {
 
   function fetchRecommendationsInPreview(previewFetchId) {
     setIsLoading(true);
+    setNewRecommendations(null);
+    searchTermInputRef.current.value = "";
     document.getElementById("recommendationPreview").scrollTo(0, 0);
+    if (votedIds) {
+      const data = { parentId, votedIds };
+      fetchVoteRecommendations(data);
+    }
     fetch(`/api/${window.location.pathname}/${previewFetchId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -152,6 +158,7 @@ const RecommendationPreview = (props) => {
         <RecommendationInPreview
           key={item[0]}
           id={item[0]}
+          parentId = {parentId}
           standing={`${
             index === 0
               ? "firstPlace"
@@ -179,7 +186,13 @@ const RecommendationPreview = (props) => {
         return;
       }
       return (
-        <NewRecommendation key={index} title={item.title} photo={item.photo} />
+        <NewRecommendation
+          key={index}
+          id= {item._id}
+          title={item.title}
+          photo={item.photo}
+          voteButtonHandler={voteButtonHandler}
+        />
       );
     });
   }
@@ -269,9 +282,6 @@ const RecommendationPreview = (props) => {
               onChange={fetchNewRecommendationInPreview}
               required
             />
-            <button type="submit" className={classes.searchButton}>
-              {Icons.PlusIcon}
-            </button>
           </div>
           {fetchedNewRecommendations}
           {isFormLoading ? <Loader formLoader /> : null}

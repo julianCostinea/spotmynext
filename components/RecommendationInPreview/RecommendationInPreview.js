@@ -5,7 +5,7 @@ import * as Icons from "../UI/Icons/Icons";
 import classes from "./RecommendationInPreview.module.css";
 
 const RecommendationInPreview = (props) => {
-  const [imagePathName, setImagePathName] = useState("/images");
+  const [imagePathName, setImagePathName] = useState('/images');
   const [voted, setVoted] = useState(false);
 
   function voteUpRecommendation(event) {
@@ -38,21 +38,22 @@ const RecommendationInPreview = (props) => {
   }
 
   useEffect(() => {
+    setVoted(false);
     switch (window.location.pathname) {
       case "/videogames":
-        setImagePathName(`${imagePathName}/videogames/${props.photo}`);
+        setImagePathName(`/images/videogames/${props.photo}`);
         break;
       case "/movies":
-        setImagePathName(`${imagePathName}/movies/${props.photo}`);
+        setImagePathName(`/images/movies/${props.photo}`);
         break;
       case "/books":
-        setImagePathName(`${imagePathName}/books/${props.photo}`);
+        setImagePathName(`/images/books/${props.photo}`);
         break;
       default:
-        setImagePathName(`${imagePathName}/videogames/${props.photo}`);
+        setImagePathName(`/images/videogames/${props.photo}`);
         break;
     }
-  }, []);
+  }, [props.parentId]);
 
   return (
     <React.Fragment>
@@ -65,9 +66,10 @@ const RecommendationInPreview = (props) => {
           <Image quality={100} layout="fill" src={imagePathName} />
           <button
             title="Recommend this title"
-            className={`${classes.voteUpButton} ${
-              voted ? classes.voteUpButtonActive : null
-            }`}
+            className={`${classes.voteUpButton} 
+            ${voted ? classes.voteUpButtonActive : null}
+            `
+          }
             onClick={voteUpRecommendation}
           >
             {Icons.ThumbsupIcon}
