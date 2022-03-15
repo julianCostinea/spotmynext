@@ -81,7 +81,7 @@ const SpotBox = (props) => {
             placeholder={props.placeholder}
             required
           />
-          <button type="submit" className={classes.searchButton}>
+          <button type="button" onClick={submitFormHandler} className={classes.searchButton}>
             {Icons.SearchIcon}
           </button>
         </div>
