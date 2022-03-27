@@ -5,7 +5,6 @@ import Tag from "../Tag/Tag";
 import Recommendations from "../recommendations/recommendations";
 import RecommendationInPreview from "../RecommendationInPreview/RecommendationInPreview";
 import Loader from "../UI/Loader/Loader";
-import * as Icons from "../UI/Icons/Icons";
 
 import classes from "./RecommendationPreview.module.css";
 import NewRecommendation from "../NewRecommendation/NewRecommendation";
@@ -17,9 +16,9 @@ const RecommendationPreview = (props) => {
   let parentId = props.id;
   let previewRecommendations = [];
   let sortedPreviewRecommendations;
-  let votedIds = [];
+  const [votedItems, setVotedItems] = useState([]);
   const searchTermInputRef = useRef();
-  const votedIdsRef = useRef();
+  const votedItemsRef = useRef();
   const parentIdRef = useRef();
   parentIdRef.current = parentId;
 
@@ -39,24 +38,25 @@ const RecommendationPreview = (props) => {
       );
   }, []);
 
-  function voteButtonHandler(type, id) {
+  function voteButtonHandler(type, newItem) {
     if (!type) {
-      votedIds.pop(id);
-      votedIdsRef.current = votedIds;
+      const newItems = votedItems.filter((item) => item.id !== newItem.id);
+      setVotedItems(newItems);
+      votedItemsRef.current = newItems;
       return;
     }
-    votedIds.push(id);
-    votedIdsRef.current = votedIds;
+    setVotedItems((oldItems) => [...oldItems, newItem]);
+    votedItemsRef.current = [...votedItems, newItem];
   }
 
   function hideRecommendationPreviewOnBackdropClick(event) {
     if (event.target.id === "backdrop") {
       props.setOpenFalse();
       sideDrawerCtx.hideBackdropHandler();
-      if (votedIdsRef.current) {
+      if (votedItemsRef.current) {
         const data = {
           parentId: parentIdRef.current,
-          votedIds: votedIdsRef.current,
+          votedItems: votedItemsRef.current,
         };
         fetchVoteRecommendations(data);
       }
@@ -77,7 +77,6 @@ const RecommendationPreview = (props) => {
           console.log("Something went wrong");
           return;
         }
-        //check IP before voting. If the same and State ="voted", say you already voted
       })
       .catch((error) => console.log(error));
   }
@@ -87,8 +86,8 @@ const RecommendationPreview = (props) => {
     setNewRecommendations(null);
     searchTermInputRef.current.value = "";
     document.getElementById("recommendationPreview").scrollTo(0, 0);
-    if (votedIds) {
-      const data = { parentId, votedIds };
+    if (votedItems) {
+      const data = { parentId, votedItems };
       fetchVoteRecommendations(data);
     }
     fetch(`/api/${window.location.pathname}/${previewFetchId}`)
@@ -158,7 +157,7 @@ const RecommendationPreview = (props) => {
         <RecommendationInPreview
           key={item[0]}
           id={item[0]}
-          parentId = {parentId}
+          parentId={parentId}
           standing={`${
             index === 0
               ? "firstPlace"
@@ -188,7 +187,7 @@ const RecommendationPreview = (props) => {
       return (
         <NewRecommendation
           key={index}
-          id= {item._id}
+          id={item._id}
           title={item.title}
           photo={item.photo}
           voteButtonHandler={voteButtonHandler}
@@ -200,8 +199,8 @@ const RecommendationPreview = (props) => {
   const closeRecommendationPreview = () => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
-    if (votedIds) {
-      const data = { parentId, votedIds };
+    if (votedItems) {
+      const data = { parentId, votedItems };
       fetchVoteRecommendations(data);
     }
   };

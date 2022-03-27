@@ -44,6 +44,11 @@ const SpotBox = (props) => {
     fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
       .then((response) => response.json())
       .then((data) => {
+        if (!data.result) {
+          setErrorHeader(`Something went wrong. We're looking into it`);
+          setIsLoading(false);
+          return;
+        }
         if (data.result.length == 0) {
           setErrorHeader(`Could not find any ${item}. Try a different search.`);
           setIsLoading(false);

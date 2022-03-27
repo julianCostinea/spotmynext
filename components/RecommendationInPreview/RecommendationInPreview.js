@@ -10,12 +10,13 @@ const RecommendationInPreview = (props) => {
 
   function voteUpRecommendation(event) {
     event.stopPropagation();
+    const itemData = {id: props.id, title: props.title, photo: props.photo}
     if (voted) {
-      props.voteButtonHandler(false, props.id);
+      props.voteButtonHandler(false, itemData);
       setVoted(false);
       return;
     }
-    props.voteButtonHandler(true, props.id);
+    props.voteButtonHandler(true, itemData);
     setVoted(true);
   }
 

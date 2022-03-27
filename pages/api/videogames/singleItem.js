@@ -6,6 +6,30 @@ async function handler(req, res) {
     try {
       const { db } = await connectToDatabase();
       const videoGamesCollection = db.collection("videogames");
+      let alreadyPresentIds = [];
+      const votedIds = [];
+
+      const fetchPresentIds = await videoGamesCollection
+        .find({ _id: ObjectId(req.body.parentId) })
+        .project({ recommendations: 1 })
+        .toArray();
+      fetchPresentIds[0].recommendations.forEach((element) => {
+        alreadyPresentIds.push(element.id);
+      });
+      for (const element of req.body.votedItems){
+        if (!alreadyPresentIds.includes(element.id)) {
+          const newItem = {
+            id: element.id,
+            votes: 1,
+            title: element.title,
+            photo: element.photo
+          }
+          await videoGamesCollection.updateOne({ _id: ObjectId(req.body.parentId) }, { $push: {recommendations: newItem} })
+        } else{
+          votedIds.push(element.id);
+        }
+      }
+
       const result = await videoGamesCollection.updateOne(
         { _id: ObjectId(req.body.parentId) },
         { $inc: { "recommendations.$[elem].votes": 1 } },
@@ -13,7 +37,7 @@ async function handler(req, res) {
           arrayFilters: [
             {
               "elem.id": {
-                $in: req.body.votedIds,
+                $in: votedIds,
               },
             },
           ],

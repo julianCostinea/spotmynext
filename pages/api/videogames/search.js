@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../../lib/mongodb";
+const jwt = require("jsonwebtoken");
 
 async function handler(req, res) {
   if (req.method === "GET") {
