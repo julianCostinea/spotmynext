@@ -41,7 +41,7 @@ const SpotBox = (props) => {
     }
     setIsLoading(true);
 
-    fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
+    fetch(`/api/search/?collection=${window.location.pathname}&searchId=${fetchId}`)
       .then((response) => response.json())
       .then((data) => {
         if (!data.result) {

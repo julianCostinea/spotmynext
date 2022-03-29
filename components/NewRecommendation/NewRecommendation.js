@@ -24,7 +24,7 @@ const NewRecommendation = (props) => {
         quality={100}
         width={40}
         height={40}
-        src={`/images/videogames/${props.photo}`}
+        src={`/images${window.location.pathname}/${props.photo}`}
       />
       <p>{props.title}</p>
       <button

@@ -64,7 +64,7 @@ const RecommendationPreview = (props) => {
   }
 
   function fetchVoteRecommendations(data) {
-    fetch(`/api/${window.location.pathname}/singleItem`, {
+    fetch(`/api/${window.location.pathname}/voteItem`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -111,7 +111,7 @@ const RecommendationPreview = (props) => {
     if (searchTermInputRef.current.value.length > 2) {
       setIsFormLoading(true);
       const fetchId = searchTermInputRef.current.value.trim();
-      fetch(`/api/${window.location.pathname}/search/?searchId=${fetchId}`)
+      fetch(`/api/search/?collection=${window.location.pathname}&searchId=${fetchId}`)
         .then((response) => response.json())
         .then((data) => {
           setNewRecommendations(data.result);
@@ -199,7 +199,7 @@ const RecommendationPreview = (props) => {
   const closeRecommendationPreview = () => {
     props.setOpenFalse();
     sideDrawerCtx.hideBackdropHandler();
-    if (votedItems) {
+    if (votedItems.length) {
       const data = { parentId, votedItems };
       fetchVoteRecommendations(data);
     }
