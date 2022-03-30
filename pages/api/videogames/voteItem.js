@@ -1,22 +1,23 @@
 import { connectToDatabase } from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
+const sanitize = require("mongo-sanitize");
 
 async function handler(req, res) {
   if (req.method === "PUT") {
     try {
+      const cleanParentId = sanitize(req.body.parentId);
+      const cleanVotedItems = sanitize(req.body.votedItems);
       const { db } = await connectToDatabase();
       const videoGamesCollection = db.collection("videogames");
       let alreadyPresentIds = [];
       const votedIds = [];
 
       const fetchPresentIds = await videoGamesCollection
-        .find({ _id: ObjectId(req.body.parentId) })
-        .project({ recommendations: 1 })
-        .toArray();
-      fetchPresentIds[0].recommendations.forEach((element) => {
+        .findOne({ _id: ObjectId(cleanParentId) }, { projection: { recommendations: 1 } },)
+      fetchPresentIds.recommendations.forEach((element) => {
         alreadyPresentIds.push(element.id);
       });
-      for (const element of req.body.votedItems){
+      for (const element of cleanVotedItems){
         if (!alreadyPresentIds.includes(element.id)) {
           const newItem = {
             id: element.id,
@@ -24,14 +25,14 @@ async function handler(req, res) {
             title: element.title,
             photo: element.photo
           }
-          await videoGamesCollection.updateOne({ _id: ObjectId(req.body.parentId) }, { $push: {recommendations: newItem} })
+          await videoGamesCollection.updateOne({ _id: ObjectId(cleanParentId) }, { $push: {recommendations: newItem} })
         } else{
           votedIds.push(element.id);
         }
       }
 
       const result = await videoGamesCollection.updateOne(
-        { _id: ObjectId(req.body.parentId) },
+        { _id: ObjectId(cleanParentId) },
         { $inc: { "recommendations.$[elem].votes": 1 } },
         {
           arrayFilters: [

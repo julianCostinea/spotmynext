@@ -5,9 +5,9 @@ import Tag from "../Tag/Tag";
 import Recommendations from "../recommendations/recommendations";
 import RecommendationInPreview from "../RecommendationInPreview/RecommendationInPreview";
 import Loader from "../UI/Loader/Loader";
+import NewRecommendation from "../NewRecommendation/NewRecommendation";
 
 import classes from "./RecommendationPreview.module.css";
-import NewRecommendation from "../NewRecommendation/NewRecommendation";
 
 const RecommendationPreview = (props) => {
   let mainTags;
@@ -64,7 +64,7 @@ const RecommendationPreview = (props) => {
   }
 
   function fetchVoteRecommendations(data) {
-    fetch(`/api/${window.location.pathname}/voteItem`, {
+    fetch(`/api${window.location.pathname}/voteItem`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -86,7 +86,7 @@ const RecommendationPreview = (props) => {
     setNewRecommendations(null);
     searchTermInputRef.current.value = "";
     document.getElementById("recommendationPreview").scrollTo(0, 0);
-    if (votedItems) {
+    if (votedItems.length) {
       const data = { parentId, votedItems };
       fetchVoteRecommendations(data);
     }
@@ -248,7 +248,6 @@ const RecommendationPreview = (props) => {
           </h2>
           <div className={imageClasses.join(" ")}>
             <Image
-              quality={100}
               layout="fill"
               src={
                 fetchedData

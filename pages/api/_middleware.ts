@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const jwt = require("jsonwebtoken");
+const jwt = require('@tsndr/cloudflare-worker-jwt');
 
 const USER_TOKEN = process.env.USER_TOKEN;
 

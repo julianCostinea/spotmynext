@@ -64,7 +64,7 @@ const RecommendationInPreview = (props) => {
           className={attachedClasses.join(" ")}
           onClick={() => props.fetchNextPreview(props.id)}
         >
-          <Image quality={100} layout="fill" src={imagePathName} />
+          <Image layout="fill" src={imagePathName} />
           <button
             title="Recommend this title"
             className={`${classes.voteUpButton} 

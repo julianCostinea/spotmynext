@@ -21,7 +21,6 @@ const NewRecommendation = (props) => {
   return (
     <div className={classes.newRecommendation}>
       <Image
-        quality={100}
         width={40}
         height={40}
         src={`/images${window.location.pathname}/${props.photo}`}
