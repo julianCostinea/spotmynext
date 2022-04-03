@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const jwt = require('@tsndr/cloudflare-worker-jwt');
+const jwt = require("@tsndr/cloudflare-worker-jwt");
 
 const USER_TOKEN = process.env.USER_TOKEN;
 
@@ -15,6 +15,10 @@ function jsonResponse(status: number, data: any, init?: ResponseInit) {
 }
 
 export function middleware(req: NextRequest, res: NextResponse) {
+  if (req.nextUrl.host === "localhost:3000") {
+    return NextResponse.next();
+  }
+
   const token = req.cookies["token"];
   let decodedToken;
   if (!token) {

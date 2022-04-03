@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import SideDrawerContext from "../../store/SideDrawerContext";
 import Tag from "../Tag/Tag";
@@ -111,7 +111,9 @@ const RecommendationPreview = (props) => {
     if (searchTermInputRef.current.value.length > 2) {
       setIsFormLoading(true);
       const fetchId = searchTermInputRef.current.value.trim();
-      fetch(`/api/search/?collection=${window.location.pathname}&searchId=${fetchId}`)
+      fetch(
+        `/api/search/?collection=${window.location.pathname}&searchId=${fetchId}`
+      )
         .then((response) => response.json())
         .then((data) => {
           setNewRecommendations(data.result);
@@ -222,17 +224,21 @@ const RecommendationPreview = (props) => {
     props.show ? classes.imageAnimation : null,
   ];
 
-  mainTags = convertTags(props.mainTags, false);
-  secondaryTags = convertTags(props.secondaryTags, true);
+  mainTags = useMemo(() => {
+    return convertTags(props.mainTags, false);
+  }, [props.mainTags]);
+  secondaryTags = useMemo(() => {
+    return convertTags(props.secondaryTags, false);
+  }, [props.secondaryTags]);
 
   if (fetchedData) {
-    sortedPreviewRecommendations = convertRecommendationsInPreview(
-      fetchedData.recommendations
-    );
+    sortedPreviewRecommendations = useMemo(() => {
+      return convertRecommendationsInPreview(fetchedData.recommendations);
+    }, [fetchedData.recommendations]);
   } else {
-    sortedPreviewRecommendations = convertRecommendationsInPreview(
-      props.recommendations
-    );
+    sortedPreviewRecommendations = useMemo(() => {
+      return convertRecommendationsInPreview(props.recommendations);
+    }, [props.recommendations]);
   }
 
   return (

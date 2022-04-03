@@ -32,7 +32,7 @@ const SpotBox = (props) => {
 
   function submitFormHandler(event) {
     event.preventDefault();
-    document.forms[0].querySelector('input').blur();
+    document.forms[0].querySelector("input").blur();
     const fetchId = searchTermInputRef.current.value.trim();
     setErrorHeader("");
     if (!fetchId || fetchId.length < 3) {
@@ -41,7 +41,9 @@ const SpotBox = (props) => {
     }
     setIsLoading(true);
 
-    fetch(`/api/search/?collection=${window.location.pathname}&searchId=${fetchId}`)
+    fetch(
+      `/api/search/?collection=${window.location.pathname}&searchId=${fetchId}`
+    )
       .then((response) => response.json())
       .then((data) => {
         if (!data.result) {
@@ -73,6 +75,8 @@ const SpotBox = (props) => {
     />
   ));
 
+  const { products } = props;
+
   return (
     <React.Fragment>
       <h1>Let's find your next {item}</h1>
@@ -86,38 +90,19 @@ const SpotBox = (props) => {
             placeholder={props.placeholder}
             required
           />
-          <button type="button" onClick={submitFormHandler} className={classes.searchButton}>
+          <button
+            type="button"
+            onClick={submitFormHandler}
+            className={classes.searchButton}
+          >
             {Icons.SearchIcon}
           </button>
         </div>
       </form>
       {isLoading ? <Loader /> : null}
-      <Recommendations>{fetchedRecommendations}</Recommendations>
-      <h1>Hot picks: </h1>
-      <Recommendations>
-        <Recommendation
-          title={`${item} 1`}
-          photo={"persona5.jpg"}
-          description="cing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags={"PlayStation 4, PlayStation 3"}
-          secondaryTags={"JRPG, Action, Simulation"}
-        />
-        <Recommendation
-          title={`${item} 2`}
-          photo={"persona5.jpg"}
-          description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags={"PlayStation 4, PlayStation 3"}
-          secondaryTags={"JRPG, Action, Simulation"}
-        />
-        <Recommendation
-          title={`${item} 3`}
-          photo={"persona5.jpg"}
-          description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae dolor perspiciatis cum maiores quisquam nemo. Amet tempora velit assumenda eius eum, eos consectetur dignissimos. Aspernatur esse odio accusamus a sit."
-          mainTags={"PlayStation 4, PlayStation 3"}
-          secondaryTags={"JRPG, Action, Simulation"}
-        />
-      </Recommendations>
+      <Recommendations>{fetchedRecommendations}</Recommendations>      
     </React.Fragment>
   );
 };
+
 export default SpotBox;
