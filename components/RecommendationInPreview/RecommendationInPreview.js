@@ -10,6 +10,9 @@ const RecommendationInPreview = (props) => {
 
   function voteUpRecommendation(event) {
     event.stopPropagation();
+    console.log('====================================');
+    console.log('running voteButtonHandler');
+    console.log('====================================');
     const itemData = {id: props.id, title: props.title, photo: props.photo}
     if (voted) {
       props.voteButtonHandler(false, itemData);

@@ -38,7 +38,7 @@ const RecommendationPreview = (props) => {
       );
   }, []);
 
-  function voteButtonHandler(type, newItem) {
+  const voteButtonHandler = (type, newItem) => {
     if (!type) {
       const newItems = votedItems.filter((item) => item.id !== newItem.id);
       setVotedItems(newItems);
