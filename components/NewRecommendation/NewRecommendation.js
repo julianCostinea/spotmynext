@@ -1,15 +1,15 @@
-import Image from "next/image";
-import { useState } from "react";
-import * as Icons from "../UI/Icons/Icons";
+import Image from 'next/image';
+import { useState } from 'react';
+import * as Icons from '../UI/Icons/Icons';
 
-import classes from "./NewRecommendation.module.css";
+import classes from './NewRecommendation.module.css';
 
-const NewRecommendation = (props) => {
+function NewRecommendation(props) {
   const [voted, setVoted] = useState(false);
 
   function voteUpNewRecommendation(event) {
     event.preventDefault();
-    const itemData = {id: props.id, title: props.title, photo: props.photo}
+    const itemData = { id: props.id, title: props.title, photo: props.photo };
     if (voted) {
       props.voteButtonHandler(false, itemData);
       setVoted(false);
@@ -21,6 +21,7 @@ const NewRecommendation = (props) => {
   return (
     <div className={classes.newRecommendation}>
       <Image
+        alt={props.title}
         width={40}
         height={40}
         src={`/images${window.location.pathname}/${props.photo}`}
@@ -37,5 +38,5 @@ const NewRecommendation = (props) => {
       </button>
     </div>
   );
-};
+}
 export default NewRecommendation;

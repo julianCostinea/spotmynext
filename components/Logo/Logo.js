@@ -5,7 +5,7 @@ import * as Icons from '../../components/UI/Icons/Icons';
 
 import classes from "./Logo.module.css";
 
-const logo = (props) => {
+const Logo = (props) => {
   const sideDrawerCtx = useContext(SideDrawerContext);
   return (
     <div className={classes.Logo} style={{ cursor: "pointer" }}>
@@ -24,4 +24,4 @@ const logo = (props) => {
   );
 };
 
-export default logo;
+export default Logo;

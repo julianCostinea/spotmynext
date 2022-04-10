@@ -1,8 +1,10 @@
 import SpotBox from "../../components/SpotBox/SpotBox";
 import React from "react";
 import Recommendation from "../../components/Recommendation/Recommendation";
-import Recommendations from "../../components/recommendations/recommendations";
+import Recommendations from "../../components/Recommendations/Recommendations";
 import FrontImage from "../../components/FrontImage/FrontImage";
+
+import classes from './books.module.css';
 
 const Books = (props) => {
   const { popularItems } = props;
@@ -25,7 +27,7 @@ const Books = (props) => {
     <React.Fragment>
       <FrontImage imagePath="/images/books.jpg" />
       <SpotBox category="books" placeholder="LOTR, 1984, Dune" />
-      <h1>Hot picks: </h1>
+      <h1 className={classes.hotPicksHeader}>Hot picks: </h1>
       <Recommendations>{fetchedPopularRecommendations}</Recommendations>
     </React.Fragment>
   );

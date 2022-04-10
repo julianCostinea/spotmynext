@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import Portal from "../../hoc/Portal/Portal";
 import Image from "next/image";
+import { Transition } from "react-transition-group";
+import Portal from "../../hoc/Portal/Portal";
 import SideDrawerContext from "../../store/SideDrawerContext";
 import RecommendationPreview from "../RecommendationPreview/RecommendationPreview";
-import { Transition } from "react-transition-group";
 
 import classes from "./Recommendation.module.css";
 
@@ -16,64 +16,72 @@ const Recommendation = (props) => {
   };
   const [imagePathName, setImagePathName] = useState("/images");
   const [recommendationOpened, setRecommendationOpened] = useState(false);
+  const {
+    id,
+    description,
+    mainTags,
+    secondaryTags,
+    photo,
+    title,
+    recommendations,
+  } = props;
 
   useEffect(() => {
     switch (window.location.pathname) {
       case "/videogames":
-        setImagePathName(`${imagePathName}/videogames/${props.photo}`);
+        setImagePathName(`${imagePathName}/videogames/${photo}`);
         break;
       case "/movies":
-        setImagePathName(`${imagePathName}/movies/${props.photo}`);
+        setImagePathName(`${imagePathName}/movies/${photo}`);
         break;
       case "/books":
-        setImagePathName(`${imagePathName}/books/${props.photo}`);
+        setImagePathName(`${imagePathName}/books/${photo}`);
         break;
       default:
-        setImagePathName(`${imagePathName}/videogames/${props.photo}`);
+        setImagePathName(`${imagePathName}/videogames/${photo}`);
         break;
     }
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <div className={classes.recommendation}>
-        <h2 className={classes.recommendationTitle}>{props.title}</h2>
+        <h2 className={classes.recommendationTitle}>{title}</h2>
         <div
           className={`${classes.recommendationPhoto} ${classes.loads}`}
-          onClick={((showRecommendationPreview))}
+          onClick={showRecommendationPreview}
+          role="button"
+          tabIndex={0}
         >
-          {/* BUILD A CUSTOM IMAGE PATH FOR EACH ROUTE DEPENDING ON HREF */}
-          <Image quality={100} layout="fill" src={imagePathName} />
+          <Image alt={title} quality={100} layout="fill" src={imagePathName} />
         </div>
       </div>
-      {
-        <Portal selector="#recommendationPreviewOverlay">
-          <Transition
-            mountOnEnter
-            appear
-            unmountOnExit
-            in={openRecommendationPreview}
-            timeout={200}
-            onEntering={() => setRecommendationOpened(true)}
-          >
-            {(state) => (
-              <RecommendationPreview
-                show={state}
-                setOpenFalse={() => setOpenRecommendationPreview(false)}
-                id={props.id}
-                title={props.title}
-                description={props.description}
-                mainTags={props.mainTags}
-                secondaryTags={props.secondaryTags}
-                photo={imagePathName}
-                recommendations = {props.recommendations}
-                recommendationOpened={recommendationOpened}
-              />
-            )}
-          </Transition>
-        </Portal>
-      }
-    </React.Fragment>
+      <Portal selector="#recommendationPreviewOverlay">
+        <Transition
+          mountOnEnter
+          appear
+          unmountOnExit
+          in={openRecommendationPreview}
+          timeout={200}
+          onEntering={() => setRecommendationOpened(true)}
+        >
+          {(state) => (
+            <RecommendationPreview
+              show={state}
+              setOpenFalse={() => setOpenRecommendationPreview(false)}
+              id={id}
+              title={title}
+              description={description}
+              mainTags={mainTags}
+              secondaryTags={secondaryTags}
+              photo={imagePathName}
+              recommendations={recommendations}
+              recommendationOpened={recommendationOpened}
+            />
+          )}
+        </Transition>
+      </Portal>
+    </>
   );
 };
 export default Recommendation;

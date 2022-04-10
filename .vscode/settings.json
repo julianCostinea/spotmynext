@@ -1,0 +1,16 @@
+{
+    "eslint.alwaysShowStatus": true,
+    "eslint.codeActionsOnSave.mode": "problems",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+    "eslint.run": "onSave",
+    "eslint.validate": [
+        "vue",
+        "html",
+        "javascript",
+        "typescript",
+        "javascriptreact",
+        "typescriptreact"
+    ]
+}

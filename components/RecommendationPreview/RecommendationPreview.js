@@ -1,11 +1,18 @@
-import { useContext, useState, useEffect, useRef, useMemo } from "react";
+import {
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import Image from "next/image";
 import SideDrawerContext from "../../store/SideDrawerContext";
-import Tag from "../Tag/Tag";
-import Recommendations from "../recommendations/recommendations";
+import Recommendations from "../Recommendations/Recommendations";
 import RecommendationInPreview from "../RecommendationInPreview/RecommendationInPreview";
 import Loader from "../UI/Loader/Loader";
 import NewRecommendation from "../NewRecommendation/NewRecommendation";
+import * as HelperFunctions from "../../lib/helpers";
 
 import classes from "./RecommendationPreview.module.css";
 
@@ -17,6 +24,7 @@ const RecommendationPreview = (props) => {
   let previewRecommendations = [];
   let sortedPreviewRecommendations;
   const [votedItems, setVotedItems] = useState([]);
+  const [errorHeader, setErrorHeader] = useState(null);
   const searchTermInputRef = useRef();
   const votedItemsRef = useRef();
   const parentIdRef = useRef();
@@ -36,9 +44,9 @@ const RecommendationPreview = (props) => {
         "click",
         hideRecommendationPreviewOnBackdropClick
       );
-  }, []);
+  }, [hideRecommendationPreviewOnBackdropClick]);
 
-  const voteButtonHandler = (type, newItem) => {
+  function voteButtonHandler(type, newItem) {
     if (!type) {
       const newItems = votedItems.filter((item) => item.id !== newItem.id);
       setVotedItems(newItems);
@@ -49,37 +57,22 @@ const RecommendationPreview = (props) => {
     votedItemsRef.current = [...votedItems, newItem];
   }
 
-  function hideRecommendationPreviewOnBackdropClick(event) {
-    if (event.target.id === "backdrop") {
-      props.setOpenFalse();
-      sideDrawerCtx.hideBackdropHandler();
-      if (votedItemsRef.current) {
-        const data = {
-          parentId: parentIdRef.current,
-          votedItems: votedItemsRef.current,
-        };
-        fetchVoteRecommendations(data);
-      }
-    }
-  }
-
-  function fetchVoteRecommendations(data) {
-    fetch(`/api${window.location.pathname}/voteItem`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result.length === 0) {
-          console.log("Something went wrong");
-          return;
+  const hideRecommendationPreviewOnBackdropClick = useCallback(
+    (event) => {
+      if (event.target.id === "backdrop") {
+        props.setOpenFalse();
+        sideDrawerCtx.hideBackdropHandler();
+        if (votedItemsRef.current) {
+          const data = {
+            parentId: parentIdRef.current,
+            votedItems: votedItemsRef.current,
+          };
+          HelperFunctions.fetchVoteRecommendations(data);
         }
-      })
-      .catch((error) => console.log(error));
-  }
+      }
+    },
+    [props, sideDrawerCtx]
+  );
 
   function fetchRecommendationsInPreview(previewFetchId) {
     setIsLoading(true);
@@ -88,19 +81,23 @@ const RecommendationPreview = (props) => {
     document.getElementById("recommendationPreview").scrollTo(0, 0);
     if (votedItems.length) {
       const data = { parentId, votedItems };
-      fetchVoteRecommendations(data);
+      HelperFunctions.fetchVoteRecommendations(data);
     }
     fetch(`/api/${window.location.pathname}/${previewFetchId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result.length === 0) {
+          setIsLoading(false);
           setErrorHeader(`Something went wrong`);
           return;
         }
         setfetchedData(data.result);
         setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        setErrorHeader(`Something went wrong`);
+        setIsLoading(false);
+      });
   }
 
   function fetchNewRecommendationInPreview() {
@@ -119,31 +116,11 @@ const RecommendationPreview = (props) => {
           setNewRecommendations(data.result);
           setIsFormLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch(() => {
+          setErrorHeader(`Something went wrong`);
+          setIsLoading(false);
+        });
     }
-  }
-
-  function convertTags(tags, secondary) {
-    if (secondary) {
-      if (fetchedData) {
-        return fetchedData.secondaryTags.split(",").map((tag, index) => (
-          <Tag key={index} secondaryTag>
-            {tag}
-          </Tag>
-        ));
-      }
-      return tags.split(",").map((tag, index) => (
-        <Tag key={index} secondaryTag>
-          {tag}
-        </Tag>
-      ));
-    }
-    if (fetchedData) {
-      return fetchedData.mainTags
-        .split(",")
-        .map((tag, index) => <Tag key={index}>{tag}</Tag>);
-    }
-    return tags.split(",").map((tag, index) => <Tag key={index}>{tag}</Tag>);
   }
 
   function convertRecommendationsInPreview(recommendationsInPreview) {
@@ -203,7 +180,7 @@ const RecommendationPreview = (props) => {
     sideDrawerCtx.hideBackdropHandler();
     if (votedItems.length) {
       const data = { parentId, votedItems };
-      fetchVoteRecommendations(data);
+      HelperFunctions.fetchVoteRecommendations(data);
     }
   };
   const recommendationPreviewClasses = [
@@ -225,20 +202,20 @@ const RecommendationPreview = (props) => {
   ];
 
   mainTags = useMemo(() => {
-    return convertTags(props.mainTags, false);
-  }, [props.mainTags]);
+    return HelperFunctions.convertTags(props.mainTags, false, fetchedData);
+  }, [props.mainTags, fetchedData]);
   secondaryTags = useMemo(() => {
-    return convertTags(props.secondaryTags, false);
-  }, [props.secondaryTags]);
+    return HelperFunctions.convertTags(props.secondaryTags, true, fetchedData);
+  }, [props.secondaryTags, fetchedData]);
 
   if (fetchedData) {
-    sortedPreviewRecommendations = useMemo(() => {
-      return convertRecommendationsInPreview(fetchedData.recommendations);
-    }, [fetchedData.recommendations]);
+    sortedPreviewRecommendations = convertRecommendationsInPreview(
+      fetchedData.recommendations
+    );
   } else {
-    sortedPreviewRecommendations = useMemo(() => {
-      return convertRecommendationsInPreview(props.recommendations);
-    }, [props.recommendations]);
+    sortedPreviewRecommendations = convertRecommendationsInPreview(
+      props.recommendations
+    );
   }
 
   return (
@@ -247,6 +224,7 @@ const RecommendationPreview = (props) => {
       className={recommendationPreviewClasses.join(" ")}
     >
       {isLoading ? <Loader /> : null}
+      <h2 className={classes.errorHeader}>{errorHeader}</h2>
       <div className={classes.currentItem}>
         <div className={classes.currentItemPhoto}>
           <h2 className={props.show ? classes.titleClasses : null}>
@@ -254,6 +232,7 @@ const RecommendationPreview = (props) => {
           </h2>
           <div className={imageClasses.join(" ")}>
             <Image
+              alt={props.title}
               layout="fill"
               src={
                 fetchedData

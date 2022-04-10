@@ -6,15 +6,15 @@ const About = () => {
       <h1>What is it about?</h1>
       <p>Say you just finished your latest game, movie, book, what have you.</p>
       <p>
-        But you're still craving more and you'd like to try something that's in
+        But you&apos;re still craving more and you&apos;d like to try something that&apos;s in
         the same sphere.
       </p>
       <p>
-        Welp, that's where{" "}
+        Welp, that&apos;s where{" "}
         <span style={{ backgroundColor: "#f4ce68" }}>SpotMyNext</span> comes in.
       </p>
       <p>
-        Type in the latest piece of entertainment you've consumed and see what
+        Type in the latest piece of entertainment you&apos;ve consumed and see what
         other people have recommended to be the next thing just like it.
       </p>
       <br />

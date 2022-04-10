@@ -1,8 +1,10 @@
 import SpotBox from "../../components/SpotBox/SpotBox";
 import React from "react";
 import Recommendation from "../../components/Recommendation/Recommendation";
-import Recommendations from "../../components/recommendations/recommendations";
+import Recommendations from "../../components/Recommendations/Recommendations";
 import FrontImage from "../../components/FrontImage/FrontImage";
+
+import classes from './movies.module.css';
 
 const Movies = (props) => {
   const { popularItems } = props;
@@ -28,7 +30,7 @@ const Movies = (props) => {
         category="movies"
         placeholder="Star Wars, Avengers, Goodfellas"
       />
-      <h1>Hot picks: </h1>
+      <h1 className={classes.hotPicksHeader}>Hot picks: </h1>
       <Recommendations>{fetchedPopularRecommendations}</Recommendations>
     </React.Fragment>
   );

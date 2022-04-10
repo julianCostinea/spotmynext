@@ -6,6 +6,7 @@ const FrontImage = (props) => {
   return (
     <div className={`${classes.imageContainer} ${classes.loads}`}>
       <Image 
+        alt='Front Image'
         quality={100} 
         layout="fill"
         src={props.imagePath} 

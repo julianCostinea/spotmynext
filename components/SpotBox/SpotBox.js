@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRef } from "react";
-import Recommendations from "../recommendations/recommendations";
+import Recommendations from "../Recommendations/Recommendations";
 import Recommendation from "../Recommendation/Recommendation";
 import Loader from "../UI/Loader/Loader";
 
@@ -59,7 +59,10 @@ const SpotBox = (props) => {
         setItems(data.result);
         setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setErrorHeader(`Something went wrong. We're looking into it`);
+        setIsLoading(false);
+      });
   }
 
   const fetchedRecommendations = items.map((item, index) => (
@@ -79,7 +82,7 @@ const SpotBox = (props) => {
 
   return (
     <React.Fragment>
-      <h1>Let's find your next {item}</h1>
+      <h1>Let&apos;s find your next {item}</h1>
       <h2 className={classes.errorHeader}>{errorHeader}</h2>
       <form onSubmit={submitFormHandler} className={classes.wrap}>
         <div className={classes.search}>
@@ -100,7 +103,7 @@ const SpotBox = (props) => {
         </div>
       </form>
       {isLoading ? <Loader /> : null}
-      <Recommendations>{fetchedRecommendations}</Recommendations>      
+      <Recommendations>{fetchedRecommendations}</Recommendations>
     </React.Fragment>
   );
 };

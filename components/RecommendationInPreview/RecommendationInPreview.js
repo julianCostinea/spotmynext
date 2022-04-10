@@ -5,27 +5,28 @@ import * as Icons from "../UI/Icons/Icons";
 import classes from "./RecommendationInPreview.module.css";
 
 const RecommendationInPreview = (props) => {
-  const [imagePathName, setImagePathName] = useState('/images');
+  const {
+    id, photo, title, voteButtonHandler, standing, parentId, fetchNextPreview,
+  } = props;
+
+  const [imagePathName, setImagePathName] = useState("/images");
   const [voted, setVoted] = useState(false);
 
   function voteUpRecommendation(event) {
     event.stopPropagation();
-    console.log('====================================');
-    console.log('running voteButtonHandler');
-    console.log('====================================');
-    const itemData = {id: props.id, title: props.title, photo: props.photo}
+    const itemData = { id, title, photo };
     if (voted) {
-      props.voteButtonHandler(false, itemData);
+      voteButtonHandler(false, itemData);
       setVoted(false);
       return;
     }
-    props.voteButtonHandler(true, itemData);
+    voteButtonHandler(true, itemData);
     setVoted(true);
   }
 
-  let attachedClasses = [classes.recommendationPhoto, classes.loads];
+  const attachedClasses = [classes.recommendationPhoto, classes.loads];
 
-  switch (props.standing) {
+  switch (standing) {
     case "firstPlace":
       attachedClasses.push(classes.firstPlace);
       break;
@@ -37,7 +38,6 @@ const RecommendationInPreview = (props) => {
       break;
 
     default:
-      null;
       break;
   }
 
@@ -45,42 +45,42 @@ const RecommendationInPreview = (props) => {
     setVoted(false);
     switch (window.location.pathname) {
       case "/videogames":
-        setImagePathName(`/images/videogames/${props.photo}`);
+        setImagePathName(`/images/videogames/${photo}`);
         break;
       case "/movies":
-        setImagePathName(`/images/movies/${props.photo}`);
+        setImagePathName(`/images/movies/${photo}`);
         break;
       case "/books":
-        setImagePathName(`/images/books/${props.photo}`);
+        setImagePathName(`/images/books/${photo}`);
         break;
       default:
-        setImagePathName(`/images/videogames/${props.photo}`);
+        setImagePathName(`/images/videogames/${photo}`);
         break;
     }
-  }, [props.parentId]);
+  }, [parentId, photo]);
 
   return (
-    <React.Fragment>
-      <div className={classes.recommendation}>
-        <h2 className={classes.recommendationTitle}>{props.title}</h2>
-        <div
-          className={attachedClasses.join(" ")}
-          onClick={() => props.fetchNextPreview(props.id)}
-        >
-          <Image layout="fill" src={imagePathName} />
-          <button
-            title="Recommend this title"
-            className={`${classes.voteUpButton} 
+    <div className={classes.recommendation}>
+      <h2 className={classes.recommendationTitle}>{title}</h2>
+      <div
+        className={attachedClasses.join(" ")}
+        onClick={() => fetchNextPreview(id)}
+        role="link"
+        tabIndex={0}
+      >
+        <Image alt={title} layout="fill" src={imagePathName} />
+        <button
+          type="button"
+          title="Recommend this title"
+          className={`${classes.voteUpButton} 
             ${voted ? classes.voteUpButtonActive : null}
-            `
-          }
-            onClick={voteUpRecommendation}
-          >
-            {Icons.ThumbsupIcon}
-          </button>
-        </div>
+            `}
+          onClick={voteUpRecommendation}
+        >
+          {Icons.ThumbsupIcon}
+        </button>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 export default RecommendationInPreview;

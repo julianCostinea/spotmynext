@@ -28,7 +28,8 @@
   border: 2px solid var(--main-color);
   position: relative;
 }
-.currentItemDescription {
+.errorHeader {
+  color: red;
 }
 .recommendedItemsHeader {
   color: #5e71af;
@@ -51,7 +52,7 @@
   display: flex;
   width: 100% !important;
 }
-.searchTermLabel{
+.searchTermLabel {
   color: #5e71af;
   font-size: 1.2rem;
   font-weight: bold;
@@ -194,4 +195,4 @@
   .wrap {
     width: 20% !important;
   }
-} 
+}

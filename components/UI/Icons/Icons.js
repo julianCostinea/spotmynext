@@ -16,7 +16,7 @@ export const SearchIcon = (
 );
 
 export const FacebookIcon = (
-  <a href="https://www.facebook.com" target="_blank">
+  <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -32,7 +32,7 @@ export const FacebookIcon = (
 );
 
 export const InstagramIcon = (
-  <a href="https://www.instagram.com" target="_blank">
+  <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
