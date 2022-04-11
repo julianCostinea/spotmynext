@@ -38,6 +38,11 @@ const Admin = () => {
       .then((response) => response.json())
       .then((results) => {
         setSuccessHeader("Item inserted");
+        titleRef.current.value= "";
+        photoRef.current.value= "";
+        descriptionRef.current.value= "";
+        mainTagsRef.current.value= "";
+        secondaryTagsRef.current.value= "";
       })
       .catch((error) => {
         setErrorHeader(error.message);
