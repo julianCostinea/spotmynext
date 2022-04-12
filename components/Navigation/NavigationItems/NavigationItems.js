@@ -9,7 +9,7 @@ const NavigationItems = () => {
     <ul className={`${classes.NavigationItems}`}>
       <Logo />
       <NavigationItem link="/videogames">Video&nbsp;Games</NavigationItem>
-      <NavigationItem link="/movies">Movies</NavigationItem>
+      <NavigationItem link="/movies">Movies&nbsp;&amp;&nbsp;TV </NavigationItem>
       <NavigationItem link="/books">Books</NavigationItem>
       <NavigationItem link="/about">What&nbsp;it&nbsp;it?</NavigationItem>
     </ul>
