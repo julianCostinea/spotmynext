@@ -7,6 +7,7 @@ import Loader from "../UI/Loader/Loader";
 import classes from "./SpotBox.module.css";
 
 import * as Icons from "../UI/Icons/Icons";
+import ContactForm from "../ContactForm/ContactForm";
 
 const SpotBox = (props) => {
   let item;
@@ -29,6 +30,7 @@ const SpotBox = (props) => {
   const [items, setItems] = useState([]);
   const [errorHeader, setErrorHeader] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -82,7 +84,9 @@ const SpotBox = (props) => {
 
   return (
     <React.Fragment>
+      <ContactForm showContactForm ={showContactForm}/>
       <h1>Let&apos;s find your next {item}</h1>
+      <h2 className={classes.recommendHeader}>Can&apos;t find your {item}? Write us! {Icons.mailIcon}</h2>
       <h2 className={classes.errorHeader}>{errorHeader}</h2>
       <form onSubmit={submitFormHandler} className={classes.wrap}>
         <div className={classes.search}>

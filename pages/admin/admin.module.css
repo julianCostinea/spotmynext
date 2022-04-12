@@ -52,9 +52,6 @@
   background-color: #1c73b6;
   border: 2px solid #1c73b6;
 }
-.Button:focus {
-  outline: black;
-}
 .errorHeader {
   color: red;
 }
