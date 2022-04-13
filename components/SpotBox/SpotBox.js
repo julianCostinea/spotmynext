@@ -79,15 +79,13 @@ const SpotBox = (props) => {
       recommendations={item.recommendations}
     />
   ));
-
-  const { products } = props;
-
   return (
     <React.Fragment>
-      <ContactForm showContactForm ={showContactForm}/>
+      <ContactForm showContactForm={showContactForm} />
       <h1>Let&apos;s find your next {item}</h1>
-      <h2 className={classes.recommendHeader}>Can&apos;t find your {item}? Write us! {Icons.mailIcon}</h2>
-      <h2 className={classes.errorHeader}>{errorHeader}</h2>
+      {errorHeader ? (
+        <h2 className={classes.errorHeader}>{errorHeader}</h2>
+      ) : null}
       <form onSubmit={submitFormHandler} className={classes.wrap}>
         <div className={classes.search}>
           <input
@@ -106,8 +104,16 @@ const SpotBox = (props) => {
           </button>
         </div>
       </form>
+
       {isLoading ? <Loader /> : null}
-      <Recommendations>{fetchedRecommendations}</Recommendations>
+      {fetchedRecommendations ? (
+        <>
+          <Recommendations>{fetchedRecommendations}</Recommendations>
+          <h2 className={classes.recommendHeader}>
+            Can&apos;t find what you&apos;re looking for? Write us! {Icons.mailIcon}
+          </h2>
+        </>
+      ) : null}
     </React.Fragment>
   );
 };

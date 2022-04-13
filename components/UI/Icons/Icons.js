@@ -78,8 +78,19 @@ export const PlusIcon = (
   </svg>
 );
 export const mailIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" width="24"
-    height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    width="26"
+    height="26"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+    />
   </svg>
-)
+);
