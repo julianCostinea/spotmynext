@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRef } from "react";
 import Recommendations from "../Recommendations/Recommendations";
 import Recommendation from "../Recommendation/Recommendation";
 import Loader from "../UI/Loader/Loader";
+import SideDrawerContext from "../../store/SideDrawerContext";
 
 import classes from "./SpotBox.module.css";
 
@@ -30,7 +31,14 @@ const SpotBox = (props) => {
   const [items, setItems] = useState([]);
   const [errorHeader, setErrorHeader] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [finishedSearch, setFinishedSearch] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const sideDrawerCtx = useContext(SideDrawerContext);
+
+  function showContactFormHandler() {
+    sideDrawerCtx.showBackdropHandler();
+    setShowContactForm(true);
+  }
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -54,12 +62,14 @@ const SpotBox = (props) => {
           return;
         }
         if (data.result.length == 0) {
-          setErrorHeader(`Could not find any ${item}. Try a different search.`);
+          setErrorHeader(`Could not find any ${item} to match your query.`);
           setIsLoading(false);
+          setFinishedSearch(true);
           return;
         }
         setItems(data.result);
         setIsLoading(false);
+        setFinishedSearch(true);
       })
       .catch((error) => {
         setErrorHeader(`Something went wrong. We're looking into it`);
@@ -81,7 +91,11 @@ const SpotBox = (props) => {
   ));
   return (
     <React.Fragment>
-      <ContactForm showContactForm={showContactForm} />
+      <ContactForm
+        category={props.category}
+        showContactForm={showContactForm}
+        hideContactForm={() => setShowContactForm(false)}
+      />
       <h1>Let&apos;s find your next {item}</h1>
       {errorHeader ? (
         <h2 className={classes.errorHeader}>{errorHeader}</h2>
@@ -107,12 +121,20 @@ const SpotBox = (props) => {
 
       {isLoading ? <Loader /> : null}
       {fetchedRecommendations ? (
-        <>
-          <Recommendations>{fetchedRecommendations}</Recommendations>
-          <h2 className={classes.recommendHeader}>
-            Can&apos;t find what you&apos;re looking for? Write us! {Icons.mailIcon}
-          </h2>
-        </>
+        <Recommendations>{fetchedRecommendations}</Recommendations>
+      ) : null}
+      {finishedSearch ? (
+        <div className={classes.recommendEmail}>
+          <p
+            className={classes.recommendHeader}
+            onClick={showContactFormHandler}
+          >
+            Can&apos;t find what you&apos;re looking for? Write us!{" "}
+            <button className={classes.recommendButton}>
+              {Icons.mailIcon}
+            </button>
+          </p>
+        </div>
       ) : null}
     </React.Fragment>
   );

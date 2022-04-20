@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.6.2",
     "@tsndr/cloudflare-worker-jwt": "^1.1.6",
     "jsonwebtoken": "^8.5.1",
     "mongo-sanitize": "^1.1.0",
