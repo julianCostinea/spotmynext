@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import Toolbar from "../components/Navigation/Toolbar/Toolbar";
 import SideDrawer from "../components/Navigation/SideDrawer/SideDrawer";
@@ -13,10 +13,6 @@ const Layout = (props) => {
 
   const closeSideDrawer = () => {
     setShowSideDrawer(false);
-  };
-
-  const sideDrawerToggleHandler = () => {
-    setShowSideDrawer(!showSideDrawer)
   };
 
   return (
